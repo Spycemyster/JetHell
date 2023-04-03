@@ -183,4 +183,15 @@ public class PlayerController : MonoBehaviour
         Color newPlayerColor = new Color(playerColor.r, playerColor.g, playerColor.b, opacity);
         sr.color = newPlayerColor;
     }
+
+
+    // ZW - Tests if player reached destination
+	void OnTriggerEnter2D(Collider2D other)
+	{
+        if (other.CompareTag("Destination"))
+        {
+            Debug.Log("Player beat level");
+            Invoke("RestartLevel", 1f);
+        }
+	}
 }

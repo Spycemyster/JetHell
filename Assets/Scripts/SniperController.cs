@@ -112,9 +112,16 @@ public class SniperController : MonoBehaviour, IEnemy
 
 	void PrepareShoot()
 	{
-        target = Player.transform.position;
-		SetLinePosition();
-		lineOn = true;
+		if (Player) 
+		{
+			target = Player.transform.position;
+			SetLinePosition();
+			lineOn = true;
+		}
+		else 
+		{
+			Debug.Log("Player not initilized in sniper: " + name);
+		}
 	}
 
 	void SetLinePosition()

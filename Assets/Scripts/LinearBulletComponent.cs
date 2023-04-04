@@ -20,6 +20,7 @@ public class LinearBulletComponent : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		Debug.Log("Trigger: " + other.gameObject.name);
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
@@ -32,6 +33,10 @@ public class LinearBulletComponent : MonoBehaviour
 				playerScript.TakeDamage(1f);
 				Destroy(gameObject);
 			}
+		}
+		else if (other.gameObject.CompareTag("Wall"))
+		{
+			Destroy(gameObject);
 		}
 	}
 

@@ -150,7 +150,6 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 	{
 		m_health -= damage;
 
-		Debug.Log(m_health + " " + m_maxHealth);
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
 
 		return m_health;

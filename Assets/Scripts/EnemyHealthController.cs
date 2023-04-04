@@ -19,7 +19,7 @@ public class EnemyHealthController : MonoBehaviour
     {
         float clamped = Mathf.Clamp(healthPercentage, 0, 1f);
         m_localScale.x = clamped;
-        Debug.Log(healthPercentage + " " + clamped + " " + sr.enabled);
+        
         if (clamped < 1f && !sr.enabled)
         {
             sr.enabled = true;

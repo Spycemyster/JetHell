@@ -10,6 +10,7 @@ public class SniperController : MonoBehaviour, IEnemy
 		get;
 		set;
 	}
+	private int m_maxHealth = 1;
 	private int m_health = 1;
 	[SerializeField] private GameObject m_bulletPrefab;
 	private const float DELAY_TIME = 1f;
@@ -29,6 +30,8 @@ public class SniperController : MonoBehaviour, IEnemy
     private const float variation = 1f;
     private const float shootTime = 1f;
 
+	private EnemyHealthController m_enemyHealthScript;
+
     private Vector3 target;
 
 	void Start()
@@ -37,6 +40,8 @@ public class SniperController : MonoBehaviour, IEnemy
 
 		lr = GetComponent<LineRenderer>();
 		lineOn = false;
+
+		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
 	}
 
 	IEnumerator Behavior()
@@ -61,7 +66,8 @@ public class SniperController : MonoBehaviour, IEnemy
 	{
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
-			if (--m_health <= 0)
+			TakeDamage();
+			if (m_health <= 0)
 			{
 				if (m_behaviorCoroutine != null)
 				{
@@ -141,5 +147,15 @@ public class SniperController : MonoBehaviour, IEnemy
 		lineOn = false;
 		lr.positionCount = 0;
 		lr.enabled = false;
+	}
+
+	public int TakeDamage(int damage = 1)
+	{
+		m_health -= damage;
+
+		Debug.Log(m_health + " " + m_maxHealth);
+		m_enemyHealthScript.SetHealthEnemy(m_health/m_maxHealth);
+
+		return m_health;
 	}
 }

@@ -11,6 +11,7 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 		set;
 	}
 
+	private int m_maxHealth = 5;
 	private int m_health = 5;
 	[SerializeField] private GameObject m_bulletPrefab;
 	private const float FIRE_RATE = 2f;
@@ -20,9 +21,13 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	private float m_fireTimer = 0f;
 	private float m_delayTimer = 0f;
 	private int m_burstCount = 0;
+
+	private EnemyHealthController m_enemyHealthScript;
+
     // Start is called before the first frame update
     void Start()
     {
+		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
     }
 
     // Update is called once per frame
@@ -51,7 +56,8 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	{
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
-			if (--m_health <= 0)
+			TakeDamage();
+			if (m_health <= 0)
 			{
 				Destroy(gameObject);
 			}
@@ -78,5 +84,15 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 			linearComponent.Velocity = new Vector2(Mathf.Cos(angle + Random.Range(-Mathf.PI / 100, Mathf.PI / 100)), Mathf.Sin(angle + Random.Range(-Mathf.PI / 100, Mathf.PI / 100)));
 		}
 
+	}
+
+	public int TakeDamage(int damage = 1)
+	{
+		m_health -= damage;
+
+		Debug.Log(m_health + " " + m_maxHealth);
+		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
+
+		return m_health;
 	}
 }

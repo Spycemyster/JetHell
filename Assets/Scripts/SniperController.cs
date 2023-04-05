@@ -26,7 +26,7 @@ public class SniperController : MonoBehaviour, IEnemy
 	private LineRenderer lr;
 	private bool lineOn;
 
-    private const float avgTime = 4f;
+    private float avgTime = 4f;
     private const float variation = 1f;
     private const float shootTime = 1f;
 
@@ -156,5 +156,10 @@ public class SniperController : MonoBehaviour, IEnemy
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
 
 		return m_health;
+	}
+
+	public void SetWaitTime(float avgWaitTime)
+	{
+		avgTime = avgWaitTime;
 	}
 }

@@ -16,6 +16,11 @@ public class LevelHandler : MonoBehaviour
 
 	[SerializeField] private GameObject m_enemyContainer;
 
+	[SerializeField] private bool m_killAllEnemies = false;
+
+	[SerializeField] private bool m_customSniperDelay = false;
+	[SerializeField] private float m_customSniperDelayValue = 4f;
+
 	private float m_spawnTimer = 0f;
 	private float m_gameTime = 0f;
 	private bool m_spawning = false;
@@ -23,15 +28,24 @@ public class LevelHandler : MonoBehaviour
 	private int enemiesSpawned = 0;
 	private const int healthPackRate = 5;
 
+	private int initialEnemies = 0;
+
 
 	private void Start()
 	{
 		m_spawnTimer = 2.0f;
 
+		initialEnemies = m_enemyContainer.transform.childCount;
 		// Game start, initialize preexisting enemies
 		for (int i = 0; i < m_enemyContainer.transform.childCount; i++)
 		{
 			m_enemyContainer.transform.GetChild(i).GetComponent<IEnemy>().Player = Player;
+
+			SniperController sniperScript = m_enemyContainer.transform.GetChild(i).GetComponent<SniperController>();
+			if (sniperScript != null && m_customSniperDelay)
+			{
+				sniperScript.SetWaitTime(m_customSniperDelayValue);
+			}
 		}
 	}
 	
@@ -55,6 +69,12 @@ public class LevelHandler : MonoBehaviour
 			{
 				SpawnHealthPack();
 			}
+		}
+
+		if (m_killAllEnemies && m_enemyContainer.transform.childCount == 0 && !Player.m_isRestarting)
+		{
+			Debug.Log("Killed all enemies");
+			Player.NextLevel();
 		}
 	}
 

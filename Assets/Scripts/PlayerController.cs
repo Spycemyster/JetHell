@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private const float shootForce = 6f; // 4f;
     private const float maxVelocity = 9f; // 7f;
 
-    private const float bulletSpeed = 23f;  // 17f;
+    private const float bulletSpeed = 27f;  // 17f;
 	private float m_health = 5f;
     private const float maxHealth = 5f;
 
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private float flashTime;
     private const float flashTimeMax = .1f;
     private bool isFlashed;
+
+    public bool m_isRestarting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +64,26 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GoToLevel(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GoToLevel(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GoToLevel(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            GoToLevel(3);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            NextLevel();
         }
 
         if (Input.GetMouseButton(0))
@@ -194,7 +216,30 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Destination"))
         {
             Debug.Log("Player beat level");
-            Invoke("RestartLevel", 1f);
+            NextLevel();
         }
 	}
+
+    public void NextLevel()
+    {
+        Debug.Log("Next level");
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (SceneManager.sceneCountInBuildSettings > nextSceneIndex)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            m_isRestarting = true;
+            Invoke("RestartLevel", 1f);
+        }
+    }
+
+    public void GoToLevel(int idx)
+    {
+        if (SceneManager.sceneCountInBuildSettings > idx)
+        {
+            SceneManager.LoadScene(idx);
+        }
+    }
 }

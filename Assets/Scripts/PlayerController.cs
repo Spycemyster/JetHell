@@ -12,10 +12,10 @@ public class PlayerController : MonoBehaviour
     private const float shootDelay = .2f;
     private float shootTimer = 0f;
 
-    private const float shootForce = 4f;
-    private const float maxVelocity = 7f;
+    private const float shootForce = 6f; // 4f;
+    private const float maxVelocity = 9f; // 7f;
 
-    private const float bulletSpeed = 17f;
+    private const float bulletSpeed = 23f;  // 17f;
 	private float m_health = 5f;
     private const float maxHealth = 5f;
 
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private const float invicibilityTimeMax = 1f;
 
     [SerializeField] private GameObject playerBulletPrefab;
-    private Vector2 playerBulletScale = new Vector2(.4f, 1.2f); //new Vector2(.2f, .7f);
+    private Vector2 playerBulletScale = new Vector2(.4f, .8f); //new Vector2(.4f, 1.2f);
 
     [SerializeField] private GameObject healthObject;
     private HealthController healthScript;
@@ -154,6 +154,9 @@ public class PlayerController : MonoBehaviour
         playerBulletRb.velocity = bulletDirection * bulletSpeed;
         playerBulletRb.rotation = playerBulletAngle;
         playerBullet.transform.localScale = playerBulletScale;
+
+        // Enable box collision now so previous actions would not affect collision
+        playerBullet.GetComponent<BoxCollider2D>().enabled = true;
 
         
     }

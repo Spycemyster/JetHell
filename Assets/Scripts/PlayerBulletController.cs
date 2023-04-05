@@ -38,8 +38,15 @@ public class PlayerBulletController : MonoBehaviour
 		if (other.gameObject.CompareTag("Wall"))
 		{
 			Destroy(gameObject);
+            //DestroyAfterTime(.05f);
 		}
     }
+
+	IEnumerator DestroyAfterTime(float time)
+	{
+		yield return new WaitForSeconds(time);
+		Destroy(gameObject);
+	}
 
     
 }

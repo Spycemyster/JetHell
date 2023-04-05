@@ -7,9 +7,13 @@ public class TrackingBulletComponent : MonoBehaviour
 	public PlayerController Player;
 	[SerializeField] private float m_speed = 5f;
 
+	private Rigidbody2D rb;
+
 	void Start()
 	{
 		StartCoroutine(DestroyAfterTime(35f));
+
+		rb = GetComponent<Rigidbody2D>();
 	}
 
     // Update is called once per frame
@@ -20,12 +24,12 @@ public class TrackingBulletComponent : MonoBehaviour
 		
 		Vector2 direction = Player.transform.position - transform.position;
 		direction = direction.normalized;
-		transform.position += (Vector3)direction * m_speed * Time.deltaTime;
+		//transform.position += (Vector3)direction * m_speed * Time.deltaTime;
+		rb.velocity = direction * m_speed;
     }
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("Trigger: " + other.gameObject.name);
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
@@ -42,6 +46,7 @@ public class TrackingBulletComponent : MonoBehaviour
 		else if (other.gameObject.CompareTag("Wall"))
 		{
 			Destroy(gameObject);
+			//DestroyAfterTime(.05f);
 		}
 	}
 

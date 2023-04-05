@@ -5,22 +5,26 @@ using UnityEngine;
 public class LinearBulletComponent : MonoBehaviour
 {
 	public Vector2 Velocity;
+
+	private Rigidbody2D rb;
 	
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(DestroyAfterTime(10f));
+
+		rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position += (Vector3)Velocity * Time.deltaTime;
+        //transform.position += (Vector3)Velocity * Time.deltaTime;
+		rb.velocity = Velocity;
     }
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("Trigger: " + other.gameObject.name);
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
@@ -37,6 +41,7 @@ public class LinearBulletComponent : MonoBehaviour
 		else if (other.gameObject.CompareTag("Wall"))
 		{
 			Destroy(gameObject);
+			//DestroyAfterTime(.05f);
 		}
 	}
 

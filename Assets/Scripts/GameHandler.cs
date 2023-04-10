@@ -7,6 +7,7 @@ public class GameHandler : MonoBehaviour
 	public Vector2 TopLeft = new Vector2(-30, 15);
 	public Vector2 BottomRight = new Vector2(30, -15);
 	public PlayerController Player;
+	public Camera MainCamera;
 
 	[SerializeField] private GameObject[] m_enemyPrefabs;
 
@@ -23,7 +24,40 @@ public class GameHandler : MonoBehaviour
 	private void Start()
 	{
 		m_spawnTimer = 2.0f;
+		Player.OnHurt += OnPlayerHurt;
+		Player.OnDeath += OnPlayerDie;
 	}
+
+	private void OnPlayerDie(PlayerController player)
+	{
+		// slow down time for a second and shake the camera while it happens
+		StartCoroutine(SlowAndShake(0.7f, 0.5f));
+	}
+
+	private void OnPlayerHurt(PlayerController player)
+	{
+		// slow down time for a second and shake the camera while it happens
+		StartCoroutine(SlowAndShake(0.4f, 0.1f));
+	}
+
+	private IEnumerator SlowAndShake(float time, float shakeAmount)
+	{
+		float timeElapsed = 0f;
+		float originalTimeScale = Time.timeScale;
+		Vector3 originalCameraPosition = MainCamera.transform.position;
+
+		while (timeElapsed < time)
+		{
+			timeElapsed += Time.deltaTime;
+			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			MainCamera.transform.position = originalCameraPosition + Random.insideUnitSphere * shakeAmount;
+			yield return null;
+		}
+
+		Time.timeScale = originalTimeScale;
+		MainCamera.transform.position = originalCameraPosition;
+	}
+
 	
 	void FixedUpdate()
 	{
@@ -54,11 +88,6 @@ public class GameHandler : MonoBehaviour
 		GameObject enemy = Instantiate(m_enemyPrefabs[randomIndex], transform.position, Quaternion.identity);
 		enemy.transform.position = new Vector2(Random.Range(TopLeft.x, BottomRight.x), Random.Range(BottomRight.y, TopLeft.y));
 		enemy.GetComponent<IEnemy>().Player = Player;
-
-		if (randomIndex == 1)
-		{
-			enemy.GetComponent<ShotgunEnemyCompoennt>().shotgunSound = audioSources[0];
-		}
 	}
 
 	private void SpawnHealthPack()

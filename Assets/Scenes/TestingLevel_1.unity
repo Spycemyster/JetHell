@@ -1020,6 +1020,7 @@ MonoBehaviour:
   TopLeft: {x: -30, y: 15}
   BottomRight: {x: 30, y: -15}
   Player: {fileID: 724053892}
+  MainCamera: {fileID: 519420031}
   m_enemyPrefabs:
   - {fileID: 8549507212952221388, guid: 5b3305a101b014e42a7d7ac020dfdd25, type: 3}
   - {fileID: 4013907923451155063, guid: fd19d84860f557742929e1018b4a59c0, type: 3}
@@ -1041,6 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TopLeft: {x: -30, y: 15}
   BottomRight: {x: 30, y: -15}
+  MainCamera: {fileID: 519420031}
   Player: {fileID: 724053892}
   m_enemyPrefabs:
   - {fileID: 8549507212952221388, guid: 5b3305a101b014e42a7d7ac020dfdd25, type: 3}

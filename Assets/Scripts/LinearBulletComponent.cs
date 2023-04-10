@@ -6,6 +6,7 @@ public class LinearBulletComponent : MonoBehaviour
 {
 	public Vector2 Velocity;
 
+	[SerializeField] private GameObject m_explosionPrefab;
 	private Rigidbody2D rb;
 	
     // Start is called before the first frame update
@@ -19,7 +20,6 @@ public class LinearBulletComponent : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //transform.position += (Vector3)Velocity * Time.deltaTime;
 		rb.velocity = Velocity;
     }
 
@@ -27,6 +27,7 @@ public class LinearBulletComponent : MonoBehaviour
 	{
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
+			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
 			Destroy(gameObject);
 		}
@@ -34,14 +35,15 @@ public class LinearBulletComponent : MonoBehaviour
 		{			
 			PlayerController playerScript = other.gameObject.GetComponent<PlayerController>();
 			if (!playerScript.isInvincible()) {
+				Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 				playerScript.TakeDamage(1f);
-				Destroy(gameObject);
 			}
+			Destroy(gameObject);
 		}
 		else if (other.gameObject.CompareTag("Wall"))
 		{
+			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(gameObject);
-			//DestroyAfterTime(.05f);
 		}
 	}
 

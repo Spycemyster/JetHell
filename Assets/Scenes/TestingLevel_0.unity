@@ -1020,6 +1020,7 @@ MonoBehaviour:
   TopLeft: {x: -30, y: 15}
   BottomRight: {x: 30, y: -15}
   Player: {fileID: 724053892}
+  MainCamera: {fileID: 0}
   m_enemyPrefabs:
   - {fileID: 8549507212952221388, guid: 5b3305a101b014e42a7d7ac020dfdd25, type: 3}
   - {fileID: 4013907923451155063, guid: fd19d84860f557742929e1018b4a59c0, type: 3}
@@ -1041,6 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TopLeft: {x: -30, y: 15}
   BottomRight: {x: 30, y: -15}
+  MainCamera: {fileID: 519420031}
   Player: {fileID: 724053892}
   m_enemyPrefabs:
   - {fileID: 8549507212952221388, guid: 5b3305a101b014e42a7d7ac020dfdd25, type: 3}
@@ -1049,6 +1051,9 @@ MonoBehaviour:
   audioSources: []
   healthPackPrefab: {fileID: 1484028202065025121, guid: b58e6bb63d01d4e339b3d36676500896, type: 3}
   m_enemyContainer: {fileID: 355956207}
+  m_killAllEnemies: 0
+  m_customSniperDelay: 0
+  m_customSniperDelayValue: 4
 --- !u!1001 &606419884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1391,6 +1396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBulletPrefab: {fileID: 1071519090183124917, guid: 5103fc7e2a3a14641a678f515be3c0cb, type: 3}
   healthObject: {fileID: 688750961}
+  m_isRestarting: 0
 --- !u!61 &724053893
 BoxCollider2D:
   m_ObjectHideFlags: 0

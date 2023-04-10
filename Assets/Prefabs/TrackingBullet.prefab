@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  m_explosionPrefab: {fileID: 4330875973638251429, guid: 03010ad8d49fd0d49b6aac0a3d889a1f, type: 3}
   m_speed: 5
 --- !u!61 &4991687624511973235
 BoxCollider2D:

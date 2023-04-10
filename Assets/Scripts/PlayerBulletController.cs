@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBulletController : MonoBehaviour
 {
+	[SerializeField] private GameObject m_explosionPrefab;
 	private int m_health = 2;
     private float timeAlive;
     private const float timeAliveMax = 5f;
@@ -37,6 +38,7 @@ public class PlayerBulletController : MonoBehaviour
     {
 		if (other.gameObject.CompareTag("Wall"))
 		{
+			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(gameObject);
             //DestroyAfterTime(.05f);
 		}
@@ -46,7 +48,5 @@ public class PlayerBulletController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(time);
 		Destroy(gameObject);
-	}
-
-    
+	}    
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TrackingBulletComponent : MonoBehaviour
 {
 	public PlayerController Player;
+	[SerializeField] private GameObject m_explosionPrefab;
 	[SerializeField] private float m_speed = 5f;
 
 	private Rigidbody2D rb;
@@ -32,11 +33,13 @@ public class TrackingBulletComponent : MonoBehaviour
 	{
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
+			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
 			Destroy(gameObject);
 		}
 		else if (other.gameObject.GetComponent<PlayerController>() != null)
 		{
+			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			PlayerController playerScript = other.gameObject.GetComponent<PlayerController>();
 			if (!playerScript.isInvincible()) {
 				playerScript.TakeDamage(1f);
@@ -45,6 +48,7 @@ public class TrackingBulletComponent : MonoBehaviour
 		}
 		else if (other.gameObject.CompareTag("Wall"))
 		{
+			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(gameObject);
 			//DestroyAfterTime(.05f);
 		}

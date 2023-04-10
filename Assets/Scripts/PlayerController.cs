@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+	public delegate void PlayerEvent(PlayerController player);
+	public PlayerEvent OnHurt, OnDeath;
 	public float Health => m_health;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -123,6 +125,7 @@ public class PlayerController : MonoBehaviour
 
 	public void TakeDamage(float delta)
 	{
+		OnHurt?.Invoke(this);
 		m_health -= delta;
         healthScript.SetHealth((int)m_health);
         SetOpacity();
@@ -130,6 +133,7 @@ public class PlayerController : MonoBehaviour
 		{
 			// die
 			//Destroy(gameObject);
+			OnDeath?.Invoke(this);
             FailState();
 		}
         invicibilityTime = 0f;

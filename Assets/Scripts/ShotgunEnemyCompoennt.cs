@@ -21,8 +21,6 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 	private bool m_isMoving = false;
 	private Coroutine m_behaviorCoroutine = null;
 
-	public AudioSource shotgunSound;
-
 	private float moveSpeed = 5f;
 
 	private LineRenderer lr;
@@ -122,7 +120,6 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 
 	void PrepareShoot()
 	{
-		shotgunSound.Play();
 		SetLinePosition();
 		lineOn = true;
 	}

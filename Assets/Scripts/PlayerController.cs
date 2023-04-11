@@ -62,7 +62,10 @@ public class PlayerController : MonoBehaviour
         invicibilityTime = invicibilityTimeMax;
 
         // Temp testing code
-        specialHandler.SetSpecial(0);
+        if (specialHandler)
+        {
+            specialHandler.SetSpecial(0);
+        }
 
         if (killCountObject)
         {

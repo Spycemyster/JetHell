@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
 
     public bool m_isRestarting = false;
 
+    [SerializeField] private SpecialHandler specialHandler;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +56,9 @@ public class PlayerController : MonoBehaviour
         isFlashed = false;
         flashTime = flashTimeMax;
         invicibilityTime = invicibilityTimeMax;
+
+        // Temp testing code
+        specialHandler.SetSpecial(0);
     }
 
     // Update is called once per frame
@@ -86,6 +91,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             NextLevel();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (specialHandler)
+            {
+                specialHandler.FireSpecial();
+            }
+            else
+            {
+                Debug.Log("Special handler not set");
+            }
         }
 
         if (Input.GetMouseButton(0))
@@ -185,6 +202,16 @@ public class PlayerController : MonoBehaviour
         playerBullet.GetComponent<BoxCollider2D>().enabled = true;
 
         
+    }
+
+    public void PlayerAddForce(Vector2 direction, float shootForce)
+    {
+        rb.AddForce(direction * shootForce, ForceMode2D.Impulse);
+
+        if (rb.velocity.magnitude > maxVelocity)
+        {
+            rb.velocity = rb.velocity.normalized * maxVelocity;
+        }
     }
 
     public void RestartLevel()

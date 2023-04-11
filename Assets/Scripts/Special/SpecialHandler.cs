@@ -7,6 +7,11 @@ public class SpecialHandler : MonoBehaviour
     [SerializeField] private PlayerController Player;
 	[SerializeField] public GameObject[] m_specials;
 
+    [SerializeField] public GameObject m_specialPickupPrefab;
+
+	public Vector2 TopLeft = new Vector2(-30, 15);
+	public Vector2 BottomRight = new Vector2(30, -15);
+
     public enum Specials
     {
         NONE=-1, SHOTGUN=0, BEAM=1
@@ -42,5 +47,12 @@ public class SpecialHandler : MonoBehaviour
         m_specialScript.FireSpecial();
     }
 
-
+    public void SpawnSpecialPickup(int idx)
+    {
+		GameObject health = Instantiate(m_specialPickupPrefab, transform.position, Quaternion.identity);
+		health.transform.position = new Vector2(Random.Range(TopLeft.x, BottomRight.x), Random.Range(BottomRight.y, TopLeft.y));
+		SpecialPickupHandler specialPickupHandler = health.GetComponent<SpecialPickupHandler>();
+        specialPickupHandler.player = Player;
+        specialPickupHandler.specialItem = idx;
+    }
 }

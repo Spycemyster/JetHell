@@ -79,6 +79,11 @@ public class GameHandler : MonoBehaviour
 			{
 				SpawnHealthPack();
 			}
+
+			if (enemiesSpawned % 10 == 6)
+			{
+				Player.PlayerSpawnSpecial(0);
+			}
 		}
 	}
 

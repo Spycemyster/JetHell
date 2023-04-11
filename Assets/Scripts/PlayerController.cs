@@ -273,4 +273,14 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(idx);
         }
     }
+
+    public void PlayerSetSpecial(int idx)
+    {
+        specialHandler.SetSpecial(idx);
+    }
+
+    public void PlayerSpawnSpecial(int idx)
+    {
+        specialHandler.SpawnSpecialPickup(idx);
+    }
 }

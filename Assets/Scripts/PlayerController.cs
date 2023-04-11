@@ -40,6 +40,10 @@ public class PlayerController : MonoBehaviour
 
     public bool m_isRestarting = false;
 
+    [SerializeField] private GameObject killCountObject;
+    private KillCountController killScript;
+    private int kills = 0;
+
     [SerializeField] private SpecialHandler specialHandler;
 
     // Start is called before the first frame update
@@ -59,6 +63,12 @@ public class PlayerController : MonoBehaviour
 
         // Temp testing code
         specialHandler.SetSpecial(0);
+
+        if (killCountObject)
+        {
+            killScript = killCountObject.GetComponent<KillCountController>();
+            killScript.SetKills(kills);
+        }
     }
 
     // Update is called once per frame
@@ -282,5 +292,15 @@ public class PlayerController : MonoBehaviour
     public void PlayerSpawnSpecial(int idx)
     {
         specialHandler.SpawnSpecialPickup(idx);
+    }
+
+    public void AddKill()
+    {
+        kills++;
+        if (killScript)
+        {
+            killScript.SetKills(kills);
+        }
+        Debug.Log("Kills: " + kills);
     }
 }

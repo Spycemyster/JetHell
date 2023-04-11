@@ -73,6 +73,7 @@ public class SniperController : MonoBehaviour, IEnemy
 				{
 					StopCoroutine(m_behaviorCoroutine);
 				}
+                Player.GetComponent<PlayerController>().AddKill();
 				Destroy(gameObject);
 			}
 

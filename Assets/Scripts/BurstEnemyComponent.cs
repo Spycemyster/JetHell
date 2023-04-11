@@ -59,6 +59,7 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 			TakeDamage();
 			if (m_health <= 0)
 			{
+                Player.GetComponent<PlayerController>().AddKill();
 				Destroy(gameObject);
 			}
 			Destroy(other.gameObject);

@@ -71,6 +71,7 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 			if (m_health <= 0)
 			{
 				StopCoroutine(m_behaviorCoroutine);
+                Player.GetComponent<PlayerController>().AddKill();
 				Destroy(gameObject);
 			}
 

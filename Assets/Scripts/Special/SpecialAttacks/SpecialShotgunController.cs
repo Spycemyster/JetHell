@@ -26,6 +26,15 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
     public void SetSpecial()
     {
         ammo = 4;
+		if (specialHandler)
+		{
+			Debug.Log("Special handler exists");
+		}
+		else
+		{
+			Debug.Log("Special handler does not exist");
+		}
+		specialHandler.SetAmmo(ammo);
     }
 
     public void FireSpecial()
@@ -33,6 +42,7 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
         if (ammo == 0) return;
         ammo--;
 		Debug.Log("Bullets left: " + ammo);
+		specialHandler.SetAmmo(ammo);
         
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerPosition = Player.transform.position;

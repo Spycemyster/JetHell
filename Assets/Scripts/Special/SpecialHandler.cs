@@ -8,6 +8,7 @@ public class SpecialHandler : MonoBehaviour
 	[SerializeField] public GameObject[] m_specials;
 
     [SerializeField] public GameObject m_specialPickupPrefab;
+    [SerializeField] public GameObject m_ammoDisplay;
 
 	public Vector2 TopLeft = new Vector2(-30, 15);
 	public Vector2 BottomRight = new Vector2(30, -15);
@@ -26,6 +27,7 @@ public class SpecialHandler : MonoBehaviour
         {
             ISpecial specialScript = specialObject.GetComponent<ISpecial>();
             specialScript.Player = Player;
+            specialScript.specialHandler = this;
         }
     }
 
@@ -54,5 +56,13 @@ public class SpecialHandler : MonoBehaviour
 		SpecialPickupHandler specialPickupHandler = health.GetComponent<SpecialPickupHandler>();
         specialPickupHandler.player = Player;
         specialPickupHandler.specialItem = idx;
+    }
+
+    public void SetAmmo(int ammo)
+    {
+        if (m_ammoDisplay)
+        {
+            m_ammoDisplay.GetComponent<AmmoDisplay>().SetAmmo(ammo);
+        }
     }
 }

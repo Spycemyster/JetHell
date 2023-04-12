@@ -5,6 +5,7 @@ using UnityEngine;
 public interface ISpecial
 {
     PlayerController Player {get; set;}
+    SpecialHandler specialHandler {get; set;}
     public void SetSpecial();
     public void FireSpecial();
     public bool OutOfAmmo();

@@ -806,6 +806,8 @@ MonoBehaviour:
   playerBulletPrefab: {fileID: 1071519090183124917, guid: 5103fc7e2a3a14641a678f515be3c0cb, type: 3}
   healthObject: {fileID: 688750961}
   m_isRestarting: 0
+  killCountObject: {fileID: 0}
+  specialHandler: {fileID: 0}
 --- !u!61 &724053893
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -930,6 +932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 738729266}
   - component: {fileID: 738729265}
+  - component: {fileID: 738729267}
   m_Layer: 0
   m_Name: Background Music
   m_TagString: Untagged
@@ -1048,6 +1051,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &738729267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738729264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93f05da56b6d4a3f97b28219097d0c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &902609829
 GameObject:
   m_ObjectHideFlags: 0

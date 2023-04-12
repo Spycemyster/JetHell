@@ -1397,6 +1397,8 @@ MonoBehaviour:
   playerBulletPrefab: {fileID: 1071519090183124917, guid: 5103fc7e2a3a14641a678f515be3c0cb, type: 3}
   healthObject: {fileID: 688750961}
   m_isRestarting: 0
+  killCountObject: {fileID: 0}
+  specialHandler: {fileID: 0}
 --- !u!61 &724053893
 BoxCollider2D:
   m_ObjectHideFlags: 0

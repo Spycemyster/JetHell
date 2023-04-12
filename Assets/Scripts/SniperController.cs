@@ -25,6 +25,7 @@ public class SniperController : MonoBehaviour, IEnemy
 
 	private LineRenderer lr;
 	private bool lineOn;
+	private const float maxLineDist = 10f;
 
     private float avgTime = 4f;
     private const float variation = 1f;
@@ -121,7 +122,14 @@ public class SniperController : MonoBehaviour, IEnemy
 	{
 		if (Player) 
 		{
-			target = Player.transform.position;
+			//target = Player.transform.position;
+
+			Vector2 playerPos = Player.transform.position;
+			Vector2 enemyPos = transform.position;
+
+			Vector2 aimDirection = playerPos - enemyPos;
+			target = enemyPos + aimDirection.normalized * maxLineDist;
+
 			SetLinePosition();
 			lineOn = true;
 		}

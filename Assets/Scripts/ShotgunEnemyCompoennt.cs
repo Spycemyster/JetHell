@@ -25,6 +25,7 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 
 	private LineRenderer lr;
 	private bool lineOn;
+	private const float maxLineDist = 5f;
 
 	private EnemyHealthController m_enemyHealthScript;
 
@@ -130,9 +131,15 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 		lr.enabled = true;
 		lr.positionCount = 2;
 
+		Vector2 playerPos = Player.transform.position;
+		Vector2 enemyPos = transform.position;
+
+		Vector2 aimDirection = playerPos - enemyPos;
+		Vector2 aimPoint = enemyPos + aimDirection.normalized * maxLineDist;
+
 		Vector3[] pos = new Vector3[2];
-		pos[0] = Player.transform.position;
-		pos[1] = transform.position;
+		pos[0] = aimPoint;
+		pos[1] = enemyPos;
 
 		lr.SetPositions(pos);
 	}

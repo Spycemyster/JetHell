@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336dd94d5234e45048c66efd70db6b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bulletPrefab: {fileID: 0}
+  m_bulletPrefab: {fileID: 1071519090183124917, guid: 5103fc7e2a3a14641a678f515be3c0cb, type: 3}
 --- !u!1 &8235171736771717101
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +93,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6efa6ac108a149a7801e6851dfff0bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_specialPrefabs: []
+  Player: {fileID: 0}
+  m_specials:
+  - {fileID: 8235171736638876692}
+  - {fileID: 8235171738140134558}
+  - {fileID: 8235171737584297286}
+  - {fileID: 8235171738045986262}
+  m_specialPickupPrefab: {fileID: 6931149170444120813, guid: 0595dbf588305493ca687bf27a57f6f5, type: 3}
+  m_ammoDisplay: {fileID: 0}
+  TopLeft: {x: -30, y: 15}
+  BottomRight: {x: 30, y: -15}
 --- !u!1 &8235171737584297286
 GameObject:
   m_ObjectHideFlags: 0

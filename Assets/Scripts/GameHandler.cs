@@ -49,7 +49,8 @@ public class GameHandler : MonoBehaviour
 		while (timeElapsed < time)
 		{
 			timeElapsed += Time.deltaTime;
-			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			//Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.3f, timeElapsed / time);
 			MainCamera.transform.position = originalCameraPosition + Random.insideUnitSphere * shakeAmount;
 			yield return null;
 		}

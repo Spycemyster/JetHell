@@ -105,6 +105,14 @@ public class PlayerController : MonoBehaviour
         {
             NextLevel();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            StopMusic();
+        }
+        if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            PlayMusic();
+        }
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -305,5 +313,23 @@ public class PlayerController : MonoBehaviour
             killScript.SetKills(kills);
         }
         Debug.Log("Kills: " + kills);
+    }
+
+    public void StopMusic()
+    {
+        GameObject musicObject = GameObject.FindGameObjectWithTag("Music");
+        if (musicObject) 
+        {
+            musicObject.GetComponent<MusicController>().StopMusic();
+        }
+    }
+
+    public void PlayMusic()
+    {
+        GameObject musicObject = GameObject.FindGameObjectWithTag("Music");
+        if (musicObject) 
+        {
+            musicObject.GetComponent<MusicController>().PlayMusic();
+        }
     }
 }

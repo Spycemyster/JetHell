@@ -58,6 +58,7 @@ public class SpecialHandler : MonoBehaviour
     {
         m_currentSpecial = m_specials[idx];
         m_specialScript = m_currentSpecial.GetComponent<ISpecial>();
+        m_specialScript.specialHandler = this;
 
         m_specialScript.SetSpecial();
     }

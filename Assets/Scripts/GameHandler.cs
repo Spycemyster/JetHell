@@ -23,6 +23,7 @@ public class GameHandler : MonoBehaviour
 
 	private void Start()
 	{
+		Time.timeScale = 1f;
 		m_spawnTimer = 2.0f;
 		Player.OnHurt += OnPlayerHurt;
 		Player.OnDeath += OnPlayerDie;
@@ -43,7 +44,7 @@ public class GameHandler : MonoBehaviour
 	private IEnumerator SlowAndShake(float time, float shakeAmount)
 	{
 		float timeElapsed = 0f;
-		float originalTimeScale = Time.timeScale;
+		float originalTimeScale = 1f;
 		Vector3 originalCameraPosition = MainCamera.transform.position;
 
 		while (timeElapsed < time)
@@ -51,11 +52,13 @@ public class GameHandler : MonoBehaviour
 			timeElapsed += Time.deltaTime;
 			//Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
 			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.3f, timeElapsed / time);
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 			MainCamera.transform.position = originalCameraPosition + Random.insideUnitSphere * shakeAmount;
 			yield return null;
 		}
 
 		Time.timeScale = originalTimeScale;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		MainCamera.transform.position = originalCameraPosition;
 	}
 

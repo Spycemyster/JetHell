@@ -34,6 +34,8 @@ public class LevelHandler : MonoBehaviour
 
 	private void Start()
 	{
+		Time.timeScale = 1f;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		m_spawnTimer = 2.0f;
 
 		initialEnemies = m_enemyContainer.transform.childCount;
@@ -97,18 +99,21 @@ public class LevelHandler : MonoBehaviour
 	private IEnumerator SlowAndShake(float time, float shakeAmount)
 	{
 		float timeElapsed = 0f;
-		float originalTimeScale = Time.timeScale;
+		float originalTimeScale = 1f;
 		Vector3 originalCameraPosition = MainCamera.transform.position;
 
 		while (timeElapsed < time)
 		{
 			timeElapsed += Time.deltaTime;
-			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			//Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.3f, timeElapsed / time);
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 			MainCamera.transform.position = originalCameraPosition + Random.insideUnitSphere * shakeAmount;
 			yield return null;
 		}
 
 		Time.timeScale = originalTimeScale;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		MainCamera.transform.position = originalCameraPosition;
 	}
 

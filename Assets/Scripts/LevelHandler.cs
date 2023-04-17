@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelHandler : MonoBehaviour
 {
+	public delegate void LevelEvent();
+	public LevelEvent OnCompleteLevel;
+	public LevelEvent OnFailLevel;
 	public Vector2 TopLeft = new Vector2(-30, 15);
 	public Vector2 BottomRight = new Vector2(30, -15);
 	public Camera MainCamera;
 	public PlayerController Player;
+	[SerializeField] private Vector3 initialPlayerPosition = new Vector3(-7, -2, 10);
 
 	[SerializeField] private GameObject[] m_enemyPrefabs;
 
@@ -16,6 +21,7 @@ public class LevelHandler : MonoBehaviour
 	[SerializeField] private GameObject healthPackPrefab;
 
 	[SerializeField] private GameObject m_enemyContainer;
+	[SerializeField] private TMP_Text timerText;
 
 	[SerializeField] private bool m_killAllEnemies = false;
 
@@ -30,7 +36,15 @@ public class LevelHandler : MonoBehaviour
 	private const int healthPackRate = 5;
 
 	private int initialEnemies = 0;
+	private float m_timer;
 
+	public void InitializeLevel(PlayerController player, float timer, Camera mainCamera)
+	{
+		MainCamera = mainCamera;
+		Player = player;
+		m_timer = timer;
+		player.transform.position = initialPlayerPosition;
+	}
 
 	private void Start()
 	{
@@ -53,6 +67,12 @@ public class LevelHandler : MonoBehaviour
 
 		Player.OnHurt += OnPlayerHurt;
 		Player.OnDeath += OnPlayerDie;
+	}
+
+	private void OnDestroy()
+	{
+		Player.OnHurt -= OnPlayerHurt;
+		Player.OnDeath -= OnPlayerDie;
 	}
 	
 	void FixedUpdate()
@@ -80,7 +100,19 @@ public class LevelHandler : MonoBehaviour
 		if (m_killAllEnemies && m_enemyContainer.transform.childCount == 0 && !Player.m_isRestarting)
 		{
 			Debug.Log("Killed all enemies");
-			Player.NextLevel();
+			//Player.NextLevel();
+			OnCompleteLevel?.Invoke();
+			return;
+		}
+
+		if (m_timer >= 0)
+		{
+			timerText.text = m_timer.ToString("0.0");
+			m_timer -= Time.fixedDeltaTime;
+			if (m_timer <= 0)
+			{
+				OnFailLevel?.Invoke();
+			}
 		}
 	}
 

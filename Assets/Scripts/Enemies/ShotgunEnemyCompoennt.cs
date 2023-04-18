@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SniperController : MonoBehaviour, IEnemy
+public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 {
 	[SerializeField]
 	public PlayerController Player
@@ -10,8 +10,8 @@ public class SniperController : MonoBehaviour, IEnemy
 		get;
 		set;
 	}
-	private int m_maxHealth = 1;
-	private int m_health = 1;
+	private int m_maxHealth = 5;
+	private int m_health = 5;
 	[SerializeField] private GameObject m_bulletPrefab;
 	private const float DELAY_TIME = 1f;
 
@@ -21,18 +21,13 @@ public class SniperController : MonoBehaviour, IEnemy
 	private bool m_isMoving = false;
 	private Coroutine m_behaviorCoroutine = null;
 
-	private float moveSpeed = 4f;
+	private float moveSpeed = 5f;
 
 	private LineRenderer lr;
 	private bool lineOn;
-
-    private float avgTime = 4f;
-    private const float variation = 1f;
-    private const float shootTime = 1f;
+	private const float maxLineDist = 5f;
 
 	private EnemyHealthController m_enemyHealthScript;
-
-    private Vector3 target;
 
 	void Start()
 	{
@@ -48,17 +43,24 @@ public class SniperController : MonoBehaviour, IEnemy
 	{
 		while (true)
 		{
-            yield return new WaitForSeconds(.2f); // wait for initialization
-            // take aim
+			m_isMoving = false;
+			// find a point near the player
+			if (Player)
+			{
+				targetPoint = Random.onUnitSphere * 5f + Player.transform.position;
+			}
+			yield return new WaitForSeconds(DELAY_TIME);
+			// move towards it
+			m_isMoving = true;
+
+			while (Vector2.Distance(transform.position, targetPoint) > 0.1f)
+			{
+				yield return new WaitForEndOfFrame();
+			}
 			PrepareShoot();
-			yield return new WaitForSeconds(shootTime);
+			yield return new WaitForSeconds(DELAY_TIME);
 			// shoot in player direction
 			ShootBullet();
-
-            float waitTime = Random.Range(avgTime - variation, avgTime + variation);
-            // wait for amount of time
-			yield return new WaitForSeconds(waitTime);
-
 		}
 	}
 
@@ -69,10 +71,7 @@ public class SniperController : MonoBehaviour, IEnemy
 			TakeDamage();
 			if (m_health <= 0)
 			{
-				if (m_behaviorCoroutine != null)
-				{
-					StopCoroutine(m_behaviorCoroutine);
-				}
+				StopCoroutine(m_behaviorCoroutine);
                 Player.GetComponent<PlayerController>().AddKill();
 				Destroy(gameObject);
 			}
@@ -85,19 +84,23 @@ public class SniperController : MonoBehaviour, IEnemy
 	{
 		if (!Player)
 			return;
-		Vector2 direction = target - transform.position;
+		Vector2 direction = Player.transform.position - transform.position;
 		direction = direction.normalized;
 
-        GameObject bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity) as GameObject;
-        bullet.transform.position = transform.position;
-        LinearBulletComponent linearComponent = bullet.GetComponent<LinearBulletComponent>();
-        if (linearComponent)
-        {
-            // generate a direction vector that is randomly offset from the player direction
-            Vector2 bulletDirection = direction;
-            bulletDirection = bulletDirection.normalized;
-            linearComponent.Velocity = bulletDirection * 50f;
-        }
+		for (int i = 0; i < 15; i++)
+		{
+			GameObject bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity) as GameObject;
+			bullet.transform.position = transform.position;
+			LinearBulletComponent linearComponent = bullet.GetComponent<LinearBulletComponent>();
+			if (linearComponent)
+			{
+				// generate a direction vector that is randomly offset from the player direction
+				Vector2 offset = Random.insideUnitCircle * 0.5f;
+				Vector2 bulletDirection = direction + offset;
+				bulletDirection = bulletDirection.normalized;
+				linearComponent.Velocity = bulletDirection * 5f;
+			}
+		}
 		StopLine();
 	}
 
@@ -119,16 +122,8 @@ public class SniperController : MonoBehaviour, IEnemy
 
 	void PrepareShoot()
 	{
-		if (Player) 
-		{
-			target = Player.transform.position;
-			SetLinePosition();
-			lineOn = true;
-		}
-		else 
-		{
-			Debug.Log("Player not initilized in sniper: " + name);
-		}
+		SetLinePosition();
+		lineOn = true;
 	}
 
 	void SetLinePosition()
@@ -136,9 +131,15 @@ public class SniperController : MonoBehaviour, IEnemy
 		lr.enabled = true;
 		lr.positionCount = 2;
 
+		Vector2 playerPos = Player.transform.position;
+		Vector2 enemyPos = transform.position;
+
+		Vector2 aimDirection = playerPos - enemyPos;
+		Vector2 aimPoint = enemyPos + aimDirection.normalized * maxLineDist;
+
 		Vector3[] pos = new Vector3[2];
-		pos[0] = target;
-		pos[1] = transform.position;
+		pos[0] = aimPoint;
+		pos[1] = enemyPos;
 
 		lr.SetPositions(pos);
 	}
@@ -157,10 +158,5 @@ public class SniperController : MonoBehaviour, IEnemy
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
 
 		return m_health;
-	}
-
-	public void SetWaitTime(float avgWaitTime)
-	{
-		avgTime = avgWaitTime;
 	}
 }

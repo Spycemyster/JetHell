@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestingLevel_1.unity
     guid: 8aea353116d6646a9b4a69e5b5ccddaf
+  - enabled: 1
+    path: Assets/Scenes/TestingLevel_2.unity
+    guid: 6f970cdefde0f433d8de18ecacf5b3e5
+  - enabled: 1
+    path: Assets/Scenes/LoopedScene.unity
+    guid: f291319aa995ad741a8beccf6b5c7813
   m_configObjects: {}

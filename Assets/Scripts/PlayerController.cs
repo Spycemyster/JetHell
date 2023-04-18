@@ -101,6 +101,14 @@ public class PlayerController : MonoBehaviour
         {
             GoToLevel(3);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            GoToLevel(4);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            GoToLevel(5);
+        }
         if (Input.GetKeyDown(KeyCode.P))
         {
             NextLevel();

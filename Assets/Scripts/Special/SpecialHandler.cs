@@ -10,6 +10,10 @@ public class SpecialHandler : MonoBehaviour
     [SerializeField] public GameObject m_specialPickupPrefab;
     [SerializeField] public GameObject m_ammoDisplay;
 
+    [SerializeField] private bool m_spawnPickup = false;
+    private const float m_spawnDelay = 5f;
+    private float m_spawnDelayTimer = 0f;
+
 	public Vector2 TopLeft = new Vector2(-30, 15);
 	public Vector2 BottomRight = new Vector2(30, -15);
 
@@ -31,6 +35,20 @@ public class SpecialHandler : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (m_spawnPickup)
+        {
+            m_spawnDelayTimer += Time.deltaTime;
+
+            if (m_spawnDelayTimer > m_spawnDelay)
+            {
+                m_spawnDelayTimer = 0f;
+                SpawnSpecialPickup();
+            }
+        }
+    }
+
     public GameObject GetSpecial(int idx)
     {
         return m_specials[idx];
@@ -40,6 +58,7 @@ public class SpecialHandler : MonoBehaviour
     {
         m_currentSpecial = m_specials[idx];
         m_specialScript = m_currentSpecial.GetComponent<ISpecial>();
+        m_specialScript.specialHandler = this;
 
         m_specialScript.SetSpecial();
     }
@@ -49,7 +68,7 @@ public class SpecialHandler : MonoBehaviour
         m_specialScript.FireSpecial();
     }
 
-    public void SpawnSpecialPickup(int idx)
+    public void SpawnSpecialPickup(int idx = 0)
     {
 		GameObject health = Instantiate(m_specialPickupPrefab, transform.position, Quaternion.identity);
 		health.transform.position = new Vector2(Random.Range(TopLeft.x, BottomRight.x), Random.Range(BottomRight.y, TopLeft.y));

@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelHandler : MonoBehaviour
 {
+	public delegate void LevelEvent();
+	public LevelEvent OnCompleteLevel;
+	public LevelEvent OnFailLevel;
 	public Vector2 TopLeft = new Vector2(-30, 15);
 	public Vector2 BottomRight = new Vector2(30, -15);
 	public Camera MainCamera;
 	public PlayerController Player;
+	[SerializeField] private Vector3 initialPlayerPosition = new Vector3(-7, -2, 10);
 
 	[SerializeField] private GameObject[] m_enemyPrefabs;
 
@@ -16,6 +21,7 @@ public class LevelHandler : MonoBehaviour
 	[SerializeField] private GameObject healthPackPrefab;
 
 	[SerializeField] private GameObject m_enemyContainer;
+	[SerializeField] private TMP_Text timerText;
 
 	[SerializeField] private bool m_killAllEnemies = false;
 
@@ -30,10 +36,20 @@ public class LevelHandler : MonoBehaviour
 	private const int healthPackRate = 5;
 
 	private int initialEnemies = 0;
+	private float m_timer;
 
+	public void InitializeLevel(PlayerController player, float timer, Camera mainCamera)
+	{
+		MainCamera = mainCamera;
+		Player = player;
+		m_timer = timer;
+		player.transform.position = initialPlayerPosition;
+	}
 
 	private void Start()
 	{
+		Time.timeScale = 1f;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		m_spawnTimer = 2.0f;
 
 		initialEnemies = m_enemyContainer.transform.childCount;
@@ -51,6 +67,12 @@ public class LevelHandler : MonoBehaviour
 
 		Player.OnHurt += OnPlayerHurt;
 		Player.OnDeath += OnPlayerDie;
+	}
+
+	private void OnDestroy()
+	{
+		Player.OnHurt -= OnPlayerHurt;
+		Player.OnDeath -= OnPlayerDie;
 	}
 	
 	void FixedUpdate()
@@ -78,7 +100,19 @@ public class LevelHandler : MonoBehaviour
 		if (m_killAllEnemies && m_enemyContainer.transform.childCount == 0 && !Player.m_isRestarting)
 		{
 			Debug.Log("Killed all enemies");
-			Player.NextLevel();
+			//Player.NextLevel();
+			OnCompleteLevel?.Invoke();
+			return;
+		}
+
+		if (m_timer >= 0)
+		{
+			timerText.text = m_timer.ToString("0.0");
+			m_timer -= Time.fixedDeltaTime;
+			if (m_timer <= 0)
+			{
+				OnFailLevel?.Invoke();
+			}
 		}
 	}
 
@@ -97,18 +131,21 @@ public class LevelHandler : MonoBehaviour
 	private IEnumerator SlowAndShake(float time, float shakeAmount)
 	{
 		float timeElapsed = 0f;
-		float originalTimeScale = Time.timeScale;
+		float originalTimeScale = 1f;
 		Vector3 originalCameraPosition = MainCamera.transform.position;
 
 		while (timeElapsed < time)
 		{
 			timeElapsed += Time.deltaTime;
-			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			//Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
+			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.3f, timeElapsed / time);
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 			MainCamera.transform.position = originalCameraPosition + Random.insideUnitSphere * shakeAmount;
 			yield return null;
 		}
 
 		Time.timeScale = originalTimeScale;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		MainCamera.transform.position = originalCameraPosition;
 	}
 

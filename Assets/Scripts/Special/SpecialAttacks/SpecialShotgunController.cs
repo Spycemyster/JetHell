@@ -20,6 +20,7 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
     private Vector2 playerBulletScale = new Vector2(.4f, .8f);
 	private const float bulletSpeed = 23f;
 	private const float bulletSpeedRange = 2f;
+	private const float bulletSpreadRange = .3f;
 	private const float shootForce = 14f;
 
 
@@ -57,7 +58,7 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
 			GameObject bullet = Instantiate(m_bulletPrefab, Player.transform.position, Quaternion.identity);
 			Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
-			Vector2 offset = Random.insideUnitCircle * 0.5f;
+			Vector2 offset = Random.insideUnitCircle * bulletSpreadRange;
 			Vector2 bulletDirection = direction + offset;
 
         	float bulletAngle = Mathf.Atan2(bulletDirection.y, bulletDirection.x) * Mathf.Rad2Deg - 90f;

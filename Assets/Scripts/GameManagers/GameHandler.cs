@@ -38,6 +38,10 @@ public class GameHandler : MonoBehaviour
 	private const int healthPackRate = 5;
 	private Coroutine m_gameLoopCoroutine;
 	private bool m_currentMinigameFinished = false;
+
+	private List<int> m_randomBag;
+	private int m_bagIndex = 0;
+
 	private void Start()
 	{
 		Time.timeScale = 1f;
@@ -45,6 +49,19 @@ public class GameHandler : MonoBehaviour
 		Player.OnHurt += OnPlayerHurt;
 		Player.OnDeath += OnPlayerDie;
 		m_gameLoopCoroutine = StartCoroutine(RunGamePhaseLoop());
+
+		m_randomBag = new List<int>();
+		for (int i = 0; i < minigamePrefabs.Length; i++)
+		{
+			m_randomBag.Add(i);
+		}
+		
+		Shuffle<int>(m_randomBag);
+		for (int i = 0; i < minigamePrefabs.Length; i++)
+		{
+			Debug.Log(m_randomBag[i]);
+		}
+
 	}
 
 	private void OnPlayerDie(PlayerController player)
@@ -113,11 +130,24 @@ public class GameHandler : MonoBehaviour
 	private void GetAndSetRandomMinigame()
 	{
 		m_currentMinigameFinished = false;
-		GameObject level = minigamePrefabs[Random.Range(0, minigamePrefabs.Length)];
+		GameObject level = minigamePrefabs[GetPsuedoRandomLevel()];
 		m_currentMinigame = Instantiate(level).GetComponent<Minigame>();
 		m_currentMinigame.InitializeLevel(Player, MainCamera, Mathf.Lerp(40.0f, 25.0f, (float)m_roundIndex / 10.0f));
 		m_currentMinigame.OnCompleteMinigame += OnCompleteMinigame;
 		m_currentMinigame.OnFailMinigame += OnFailMinigame;
+	}
+
+	private int GetPsuedoRandomLevel()
+	{
+		if (m_bagIndex >= minigamePrefabs.Length)
+		{
+			// Reshuffle
+			Shuffle<int>(m_randomBag);
+			m_bagIndex = 0;
+		}
+		int level = m_randomBag[m_bagIndex];
+		m_bagIndex++;
+		return level;
 	}
 
 	private void OnFailMinigame()
@@ -203,5 +233,19 @@ public class GameHandler : MonoBehaviour
 		GameObject health = Instantiate(healthPackPrefab, transform.position, Quaternion.identity, survivalEnemiesParent.transform);
 		health.transform.position = new Vector2(Random.Range(TopLeft.x, BottomRight.x), Random.Range(BottomRight.y, TopLeft.y));
 		health.GetComponent<HealthPackController>().player = Player;
+	}
+
+
+
+	public void Shuffle<T>(IList<T> list)  
+	{  
+		int n = list.Count;  
+		while (n > 1) {  
+			n--;  
+			int k = Random.Range(0, n + 1);  
+			T value = list[k];  
+			list[k] = list[n];  
+			list[n] = value;  
+		}  
 	}
 }

@@ -20,7 +20,7 @@ public class SpecialTimeSlowController : MonoBehaviour, ISpecial
     private bool isActive = false;
     private const float fireDuration = 5f;
     private float fireTime = 0f;
-    private float reducedTimeScale = .6f;
+    private float reducedTimeScale = .5f;
 
 
     public void SetSpecial()
@@ -33,6 +33,7 @@ public class SpecialTimeSlowController : MonoBehaviour, ISpecial
         fireTime = 0f;
         isActive = true;
         Time.timeScale = reducedTimeScale;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
     public bool OutOfAmmo()
@@ -49,6 +50,7 @@ public class SpecialTimeSlowController : MonoBehaviour, ISpecial
             if (fireTime > fireDuration)
             {
                 Time.timeScale = 1f;
+		        Time.fixedDeltaTime = 0.02f * Time.timeScale;
             }
         }
     }

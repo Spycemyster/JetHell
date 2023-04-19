@@ -103,6 +103,9 @@ public class SpecialHandler : MonoBehaviour
 
     public void DestroyedValue(float value)
     {
-        m_specialScript.DestroyedValue(value);
+        if (m_specialScript != null)
+        {
+            m_specialScript.DestroyedValue(value);
+        }
     }
 }

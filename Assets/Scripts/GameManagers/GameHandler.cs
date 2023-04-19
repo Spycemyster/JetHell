@@ -24,6 +24,7 @@ public class GameHandler : MonoBehaviour
 
 	[SerializeField] private GameObject healthPackPrefab;
 	[SerializeField] private GameObject survivalEnemiesParent;
+	[SerializeField] private GameObject m_bulletContainer;
 	[SerializeField] private TMP_Text phaseText;
 	[SerializeField] private float restPhaseDuration = 2.0f;
 	[SerializeField] private float minigameRestPhaseDuration = 2.0f;
@@ -99,6 +100,7 @@ public class GameHandler : MonoBehaviour
 					yield return new WaitForSeconds(minigameRestPhaseDuration);
 					phaseText.enabled = false;
 					ClearAllSurvivalEnemies();
+					//ClearAllEnemyBullets();
 					GetAndSetRandomMinigame();
 					m_gamePhase = GamePhase.MINIGAME_PHASE;
 					break;
@@ -124,6 +126,25 @@ public class GameHandler : MonoBehaviour
 				continue;
 			}
 			Destroy(enemies[i].gameObject);
+		}
+	}
+
+	private void ClearAllEnemyBullets()
+	{
+		List<GameObject> toDestroy = new List<GameObject>();
+		for (int i = 0; i < transform.parent.childCount; i++)
+		{
+			GameObject potentialBullet = transform.parent.GetChild(i).gameObject;
+			if (potentialBullet.CompareTag("EnemyBullet"))
+			{
+				toDestroy.Add(potentialBullet);
+			}
+		}
+
+		Debug.Log("Bullet size: " + toDestroy.Count);
+		foreach (GameObject bullet in toDestroy)
+		{
+			Destroy(bullet);
 		}
 	}
 
@@ -202,6 +223,7 @@ public class GameHandler : MonoBehaviour
 		m_gameTime += Time.fixedDeltaTime;
 		m_spawnTimer += Time.fixedDeltaTime;
 
+		//if (m_spawnTimer > Mathf.Lerp(2f, 1f, m_gameTime / 125f))
 		if (m_spawnTimer > Mathf.Lerp(4.5f, 2f, m_gameTime / 125f))
 		{
 			m_spawnTimer = 0;

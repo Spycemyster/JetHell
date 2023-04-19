@@ -33,4 +33,9 @@ public class SpecialTeleportController : MonoBehaviour, ISpecial
         
         return ammo == 0;
     }
+
+    public void DestroyedValue(float value)
+    {
+        
+    }
 }

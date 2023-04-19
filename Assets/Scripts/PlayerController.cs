@@ -340,4 +340,12 @@ public class PlayerController : MonoBehaviour
             musicObject.GetComponent<MusicController>().PlayMusic();
         }
     }
+
+    public void DestroyedValue(float value)
+    {
+        if (specialHandler)
+        {
+            specialHandler.DestroyedValue(value);
+        }
+    }
 }

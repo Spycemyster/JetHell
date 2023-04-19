@@ -9,4 +9,5 @@ public interface ISpecial
     public void SetSpecial();
     public void FireSpecial();
     public bool OutOfAmmo();
+    public void DestroyedValue(float value);
 }

@@ -23,10 +23,16 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
 	private const float bulletSpreadRange = .3f;
 	private const float shootForce = 14f;
 
+	private float maxAmmoTime = 10f;
+	private float ammoTime;
+
+	private const float maxFireDelay = 1f;
+	private float fireDelayTime = maxFireDelay;
+
 
     public void SetSpecial()
     {
-        ammo = 4;
+        //ammo = 4;
 		if (specialHandler)
 		{
 			Debug.Log("Special handler exists");
@@ -35,15 +41,18 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
 		{
 			Debug.Log("Special handler does not exist");
 		}
-		specialHandler.SetAmmo(ammo);
+		ammoTime = maxAmmoTime;
+		specialHandler.SetAmmo(ammoTime/maxAmmoTime);
     }
 
     public void FireSpecial()
     {
-        if (ammo == 0) return;
-        ammo--;
-		Debug.Log("Bullets left: " + ammo);
-		specialHandler.SetAmmo(ammo);
+		if (fireDelayTime < maxFireDelay)
+		{
+			return;
+		}
+
+		fireDelayTime = 0f;
         
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerPosition = Player.transform.position;
@@ -75,6 +84,27 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
 
     public bool OutOfAmmo()
     {
-        return ammo == 0;
+        return ammoTime <= 0;
+    }
+
+	private void Update()
+	{
+		ammoTime -= Time.deltaTime;
+		specialHandler.SetAmmo(ammoTime/maxAmmoTime);
+		if (ammoTime <= 0)
+		{
+			specialHandler.RemoveSpecial();
+		}
+		if (fireDelayTime <= maxFireDelay)
+		{
+			fireDelayTime += Time.deltaTime;
+		}
+	}
+
+    public void DestroyedValue(float value)
+    {
+        ammoTime = Mathf.Clamp(ammoTime + value, 0, maxAmmoTime);
+
+		specialHandler.SetAmmo(ammoTime/maxAmmoTime);
     }
 }

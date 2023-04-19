@@ -72,12 +72,19 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 			if (m_health <= 0)
 			{
 				StopCoroutine(m_behaviorCoroutine);
-                Player.GetComponent<PlayerController>().AddKill();
-				Destroy(gameObject);
+                DestroyedByPlayer();
 			}
 
 			Destroy(other.gameObject);
 		}
+	}
+
+	public void DestroyedByPlayer()
+	{
+		PlayerController playerScript = Player.GetComponent<PlayerController>();
+		playerScript.AddKill();
+		playerScript.DestroyedValue(.5f);
+		Destroy(gameObject);
 	}
 
 	void ShootBullet()

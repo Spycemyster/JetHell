@@ -54,4 +54,9 @@ public class SpecialTimeSlowController : MonoBehaviour, ISpecial
             }
         }
     }
+
+    public void DestroyedValue(float value)
+    {
+        
+    }
 }

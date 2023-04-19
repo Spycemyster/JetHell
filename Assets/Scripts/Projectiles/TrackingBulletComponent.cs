@@ -35,7 +35,8 @@ public class TrackingBulletComponent : MonoBehaviour
 		{
 			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
-			Destroy(gameObject);
+			//Destroy(gameObject);
+			DestroyedByPlayer();
 		}
 		else if (other.gameObject.GetComponent<PlayerController>() != null)
 		{
@@ -52,6 +53,13 @@ public class TrackingBulletComponent : MonoBehaviour
 			Destroy(gameObject);
 			//DestroyAfterTime(.05f);
 		}
+	}
+
+	public void DestroyedByPlayer()
+	{
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		player.GetComponent<PlayerController>().DestroyedValue(.1f);
+		Destroy(gameObject);
 	}
 
 	IEnumerator DestroyAfterTime(float time)

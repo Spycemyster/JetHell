@@ -59,11 +59,18 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 			TakeDamage();
 			if (m_health <= 0)
 			{
-                Player.GetComponent<PlayerController>().AddKill();
-				Destroy(gameObject);
+				DestroyedByPlayer();
 			}
 			Destroy(other.gameObject);
 		}
+	}
+
+	public void DestroyedByPlayer()
+	{
+		PlayerController playerScript = Player.GetComponent<PlayerController>();
+		playerScript.AddKill();
+		playerScript.DestroyedValue(.5f);
+		Destroy(gameObject);
 	}
 
 	void ShootBullet()

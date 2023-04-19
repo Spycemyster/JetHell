@@ -22,6 +22,9 @@ public class SpecialBeamController : MonoBehaviour, ISpecial
     private const float fireDuration = 1f;
     private float fireTime = 0f;
 
+	private float maxAmmoTime = 10f;
+	private float ammoTime;
+
 
     public void SetSpecial()
     {
@@ -97,5 +100,11 @@ public class SpecialBeamController : MonoBehaviour, ISpecial
     private void StopRay()
     {
         lr.enabled = false;
+    }
+
+    public void DestroyedValue(float value)
+    {
+        ammoTime += value;
+		specialHandler.SetAmmo(ammoTime/maxAmmoTime);
     }
 }

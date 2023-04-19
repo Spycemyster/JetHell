@@ -17,6 +17,8 @@ public class SpecialHandler : MonoBehaviour
 	public Vector2 TopLeft = new Vector2(-30, 15);
 	public Vector2 BottomRight = new Vector2(30, -15);
 
+    private float currentAmmoPercentage;
+
     public enum Specials
     {
         NONE=-1, SHOTGUN=0, BEAM=1
@@ -24,6 +26,7 @@ public class SpecialHandler : MonoBehaviour
 
     private GameObject m_currentSpecial;
     private ISpecial m_specialScript;
+    private bool m_hasSpecial;
 
     void Start()
     {
@@ -61,11 +64,16 @@ public class SpecialHandler : MonoBehaviour
         m_specialScript.specialHandler = this;
 
         m_specialScript.SetSpecial();
+
+        m_hasSpecial = true;
     }
 
     public void FireSpecial()
     {
-        m_specialScript.FireSpecial();
+        if (m_hasSpecial)
+        {
+            m_specialScript.FireSpecial();
+        }
     }
 
     public void SpawnSpecialPickup(int idx = 0)
@@ -77,11 +85,24 @@ public class SpecialHandler : MonoBehaviour
         specialPickupHandler.specialItem = idx;
     }
 
-    public void SetAmmo(int ammo)
+    public void SetAmmo(float ammo)
     {
         if (m_ammoDisplay)
         {
-            m_ammoDisplay.GetComponent<AmmoDisplay>().SetAmmo(ammo);
+            //m_ammoDisplay.GetComponent<AmmoDisplay>().SetAmmo(ammo);
+            m_ammoDisplay.GetComponent<AmmoDisplayContinuous>().SetAmmo(ammo);
         }
+    }
+
+    public void RemoveSpecial()
+    {
+        m_currentSpecial = null;
+        m_specialScript = null;
+        m_hasSpecial = false;
+    }
+
+    public void DestroyedValue(float value)
+    {
+        m_specialScript.DestroyedValue(value);
     }
 }

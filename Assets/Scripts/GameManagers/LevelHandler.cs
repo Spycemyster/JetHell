@@ -120,6 +120,8 @@ public class LevelHandler : MonoBehaviour
 			m_timer -= Time.fixedDeltaTime;
 			if (m_timer <= 0)
 			{
+				Debug.Log("Fail level invoke");
+				Player.TakeDamage(10f);
 				OnFailLevel?.Invoke();
 			}
 		}

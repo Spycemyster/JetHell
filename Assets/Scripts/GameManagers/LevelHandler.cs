@@ -27,6 +27,7 @@ public class LevelHandler : MonoBehaviour
 
 	[SerializeField] private bool m_customSniperDelay = false;
 	[SerializeField] private float m_customSniperDelayValue = 4f;
+	[SerializeField] private GameObject m_healthContainer;
 
 	private float m_spawnTimer = 0f;
 	private float m_gameTime = 0f;
@@ -62,6 +63,14 @@ public class LevelHandler : MonoBehaviour
 			if (sniperScript != null && m_customSniperDelay)
 			{
 				sniperScript.SetWaitTime(m_customSniperDelayValue);
+			}
+		}
+
+		if (m_healthContainer)
+		{
+			for (int i = 0; i < m_healthContainer.transform.childCount; i++)
+			{
+				m_healthContainer.transform.GetChild(i).GetComponent<HealthPackController>().player = Player;
 			}
 		}
 

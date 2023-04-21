@@ -21,6 +21,7 @@ public class GameHandler : MonoBehaviour
 
 	[SerializeField] private AudioSource[] audioSources;
 	[SerializeField] private GameObject[] minigamePrefabs;
+	[SerializeField] private GameObject[] bossPrefabs;
 
 	[SerializeField] private GameObject healthPackPrefab;
 	[SerializeField] private GameObject survivalEnemiesParent;
@@ -42,6 +43,7 @@ public class GameHandler : MonoBehaviour
 
 	private List<int> m_randomBag;
 	private int m_bagIndex = 0;
+	private int m_bossIndex = 0;
 
 	private void Start()
 	{
@@ -96,7 +98,14 @@ public class GameHandler : MonoBehaviour
 					break;
 				case GamePhase.REST_PHASE_BEFORE_MINIGAME:
 					phaseText.enabled = true;
-					phaseText.text = "Minigame Incoming...";
+					if (IsBossIncoming())
+					{
+						phaseText.text = "Boss Incoming...";
+					}
+					else
+					{
+						phaseText.text = "Minigame Incoming...";
+					}
 					yield return new WaitForSeconds(minigameRestPhaseDuration);
 					phaseText.enabled = false;
 					ClearAllSurvivalEnemies();
@@ -151,24 +160,41 @@ public class GameHandler : MonoBehaviour
 	private void GetAndSetRandomMinigame()
 	{
 		m_currentMinigameFinished = false;
-		GameObject level = minigamePrefabs[GetPsuedoRandomLevel()];
+		GameObject level = GetPsuedoRandomLevel();
 		m_currentMinigame = Instantiate(level).GetComponent<Minigame>();
 		m_currentMinigame.InitializeLevel(Player, MainCamera, Mathf.Lerp(40.0f, 25.0f, (float)m_roundIndex / 10.0f));
 		m_currentMinigame.OnCompleteMinigame += OnCompleteMinigame;
 		m_currentMinigame.OnFailMinigame += OnFailMinigame;
 	}
 
-	private int GetPsuedoRandomLevel()
+	private GameObject GetPsuedoRandomLevel()
 	{
 		if (m_bagIndex >= minigamePrefabs.Length)
 		{
 			// Reshuffle
 			Shuffle<int>(m_randomBag);
 			m_bagIndex = 0;
+
+			// Return boss level
+			if (bossPrefabs != null && bossPrefabs.Length > 0)
+			{
+				GameObject bossLevel = bossPrefabs[m_bossIndex % bossPrefabs.Length];
+				m_bossIndex++;
+				return bossLevel;
+			}
 		}
 		int level = m_randomBag[m_bagIndex];
 		m_bagIndex++;
-		return level;
+		return minigamePrefabs[level];
+	}
+
+	private bool IsBossIncoming()
+	{
+		if (m_bagIndex >= minigamePrefabs.Length && bossPrefabs != null && bossPrefabs.Length > 0)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	private void OnFailMinigame()

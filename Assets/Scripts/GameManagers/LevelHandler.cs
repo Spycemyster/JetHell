@@ -114,15 +114,18 @@ public class LevelHandler : MonoBehaviour
 			return;
 		}
 
-		if (m_timer >= 0)
+		if (timerText)
 		{
-			timerText.text = m_timer.ToString("0.0");
-			m_timer -= Time.fixedDeltaTime;
-			if (m_timer <= 0)
+			if (m_timer >= 0)
 			{
-				Debug.Log("Fail level invoke");
-				Player.TakeDamage(10f);
-				OnFailLevel?.Invoke();
+				timerText.text = m_timer.ToString("0.0");
+				m_timer -= Time.fixedDeltaTime;
+				if (m_timer <= 0)
+				{
+					Debug.Log("Fail level invoke");
+					Player.TakeDamage(10f);
+					OnFailLevel?.Invoke();
+				}
 			}
 		}
 	}

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/LoopedScene.unity
+    guid: f291319aa995ad741a8beccf6b5c7813
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -20,7 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestingLevel_2.unity
     guid: 6f970cdefde0f433d8de18ecacf5b3e5
-  - enabled: 1
-    path: Assets/Scenes/LoopedScene.unity
-    guid: f291319aa995ad741a8beccf6b5c7813
   m_configObjects: {}

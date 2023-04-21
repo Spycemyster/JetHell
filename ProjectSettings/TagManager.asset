@@ -9,6 +9,7 @@ TagManager:
   - Destination
   - Wall
   - Music
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

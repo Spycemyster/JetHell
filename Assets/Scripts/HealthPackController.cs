@@ -17,12 +17,6 @@ public class HealthPackController : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 	void OnTriggerEnter2D(Collider2D other)
 	{
         if (!pickedUp)
@@ -50,10 +44,11 @@ public class HealthPackController : MonoBehaviour
 
     public void PickUp()
     {
+        pickedUp = true;
         player.GetComponent<PlayerController>().IncreaseHealth(healthPackIncrease);
         HideObject();
         healthSound.Play();
-        DestroyAfterTime(1f);
+        Destroy(gameObject, 1f);
     }
 
     public void HideObject()
@@ -72,12 +67,6 @@ public class HealthPackController : MonoBehaviour
         // Remove box colllider
         GetComponent<BoxCollider2D>().enabled = false;
     }
-
-	IEnumerator DestroyAfterTime(float time)
-	{
-		yield return new WaitForSeconds(time);
-		Destroy(gameObject);
-	}
 
     
 }

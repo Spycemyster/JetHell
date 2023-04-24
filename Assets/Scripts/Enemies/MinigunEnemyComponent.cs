@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[RequireComponent(typeof(AudioSource))]
+
 
 public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 {
@@ -35,6 +37,9 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 
     private bool m_isShooting = false;
 
+	//sound
+	private AudioSource minigunSound;
+
 	void Start()
 	{
 		m_behaviorCoroutine = StartCoroutine(Behavior());
@@ -43,6 +48,9 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 		lineOn = false;
 
 		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
+
+		//sound
+		minigunSound = gameObject.GetComponent<AudioSource>();
 	}
 
 	IEnumerator Behavior()
@@ -80,9 +88,10 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 	public void DestroyedByPlayer()
 	{
 		PlayerController playerScript = Player.GetComponent<PlayerController>();
+		minigunSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
-		Destroy(gameObject);
+		Destroy(gameObject, 1f);
 	}
 
 	void ShootBullet()

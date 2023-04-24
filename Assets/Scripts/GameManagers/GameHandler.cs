@@ -174,7 +174,9 @@ public class GameHandler : MonoBehaviour
 			// Reshuffle
 			Shuffle<int>(m_randomBag);
 			m_bagIndex = 0;
-
+		}
+		if (m_roundIndex % 3 == 2)
+		{
 			// Return boss level
 			if (bossPrefabs != null && bossPrefabs.Length > 0)
 			{

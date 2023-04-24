@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private const float shootForce = 6f; // 4f;
     private const float maxVelocity = 9f; // 7f;
 
-    private const float bulletSpeed = 27f;  // 17f;
+    private const float bulletSpeed = 40f; //27f;  // 17f;
 	private float m_health = 5f;
     private const float maxHealth = 5f;
 
@@ -45,6 +45,9 @@ public class PlayerController : MonoBehaviour
     private int kills = 0;
 
     [SerializeField] private SpecialHandler specialHandler;
+
+    private float friction = 5f;
+    private bool isSlowMode = false;
 
     // Start is called before the first frame update
     void Start()
@@ -121,8 +124,12 @@ public class PlayerController : MonoBehaviour
         {
             PlayMusic();
         }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            isSlowMode = !isSlowMode;
+        }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             if (specialHandler)
             {
@@ -166,6 +173,13 @@ public class PlayerController : MonoBehaviour
             isFlashed = false;
             sr.color = origColor;
             SetOpacity();
+        }
+
+
+        if (isSlowMode)
+        {
+            //rb.velocity -= (rb.velocity * friction * Time.deltaTime);
+            rb.velocity = rb.velocity.normalized * Mathf.Max(rb.velocity.magnitude - friction * Time.deltaTime, 0);
         }
     }
 

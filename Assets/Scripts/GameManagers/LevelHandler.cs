@@ -150,6 +150,7 @@ public class LevelHandler : MonoBehaviour
 
 		while (timeElapsed < time)
 		{
+			while (PauseMenuController.gameIsPaused) yield return null;
 			timeElapsed += Time.deltaTime;
 			//Time.timeScale = Mathf.Lerp(originalTimeScale, 0.1f, timeElapsed / time);
 			Time.timeScale = Mathf.Lerp(originalTimeScale, 0.3f, timeElapsed / time);

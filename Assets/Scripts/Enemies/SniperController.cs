@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[RequireComponent(typeof(AudioSource))]
+
 
 public class SniperController : MonoBehaviour, IEnemy
 {
@@ -35,6 +37,9 @@ public class SniperController : MonoBehaviour, IEnemy
 
     private Vector3 target;
 
+	//sounds
+	private AudioSource sniperSound;
+
 	void Start()
 	{
 		m_behaviorCoroutine = StartCoroutine(Behavior());
@@ -43,6 +48,9 @@ public class SniperController : MonoBehaviour, IEnemy
 		lineOn = false;
 
 		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
+
+		//sound
+		sniperSound = gameObject.GetComponent<AudioSource>();
 	}
 
 	IEnumerator Behavior()
@@ -84,9 +92,10 @@ public class SniperController : MonoBehaviour, IEnemy
 	public void DestroyedByPlayer()
 	{
 		PlayerController playerScript = Player.GetComponent<PlayerController>();
+		sniperSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
-		Destroy(gameObject);
+		Destroy(gameObject, 1f);
 	}
 
 	void ShootBullet()

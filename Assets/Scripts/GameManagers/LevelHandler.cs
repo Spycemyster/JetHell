@@ -123,7 +123,7 @@ public class LevelHandler : MonoBehaviour
 				if (m_timer <= 0)
 				{
 					Debug.Log("Fail level invoke");
-					Player.TakeDamage(10f);
+					Player.TakeDamage(2f);
 					OnFailLevel?.Invoke();
 				}
 			}

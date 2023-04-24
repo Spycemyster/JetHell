@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[RequireComponent(typeof(AudioSource))]
+
 
 public class BurstEnemyComponent : MonoBehaviour, IEnemy
 {
@@ -23,11 +25,16 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	private int m_burstCount = 0;
 
 	private EnemyHealthController m_enemyHealthScript;
+	//sound
+	private AudioSource burstSound;
 
     // Start is called before the first frame update
     void Start()
     {
 		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
+
+		//sound
+		burstSound = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -68,9 +75,10 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	public void DestroyedByPlayer()
 	{
 		PlayerController playerScript = Player.GetComponent<PlayerController>();
+		burstSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
-		Destroy(gameObject);
+		Destroy(gameObject, 1f);
 	}
 
 	void ShootBullet()

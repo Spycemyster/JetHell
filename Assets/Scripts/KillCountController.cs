@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class KillCountController : MonoBehaviour
 {
@@ -16,16 +17,19 @@ public class KillCountController : MonoBehaviour
     private GameObject[] killTicks = new GameObject[1];
     private bool killIsZero = true;
 
+    private TextMeshProUGUI killsText;
+
     // Start is called before the first frame update
     void Start()
     {
+        killsText = GetComponent<TextMeshProUGUI>();
     }
 
     public void SetKills(int kills)
     {
         killCount = kills;
         killIsZero = (killCount == 0);
-        DisplayKills();
+        DisplayKillsDiscrete();
 
     }
 
@@ -59,6 +63,11 @@ public class KillCountController : MonoBehaviour
             healthPos += new Vector2(finalOffset, 0);
             killTicks[i].SetActive(true);
         }
+    }
+
+    public void DisplayKillsDiscrete()
+    {
+        killsText.text = "Kills: " + killCount;
     }
 
 

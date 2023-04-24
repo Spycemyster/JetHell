@@ -9,7 +9,7 @@ public class HealthController : MonoBehaviour
     private int health;
     private int maxHealth = 10;
     private Vector2 originPoint = new Vector2(-106, 0);
-    private Vector3 healthBitScale = new Vector3(24, 12, 1);
+    private Vector3 healthBitScale = new Vector3(24, 8, 1); //new Vector3(24, 12, 1);
     private float offset = 30f;
 
     private GameObject[] healthBits = new GameObject[1];

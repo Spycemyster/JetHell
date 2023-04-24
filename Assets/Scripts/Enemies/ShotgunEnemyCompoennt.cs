@@ -33,6 +33,7 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 
 	//sound
 	private AudioSource shotgunSound;
+	private bool isDead = false;
 
 	void Start()
 	{
@@ -74,7 +75,7 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
+		if (other.gameObject.GetComponent<PlayerBulletController>() != null && !isDead)
 		{
 			TakeDamage();
 			if (m_health <= 0)
@@ -93,6 +94,8 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 		shotgunSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
+		isDead = true;
+		HideObject();
 		Destroy(gameObject, 2f);
 	}
 
@@ -174,5 +177,12 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
 
 		return m_health;
+	}
+
+	public void HideObject()
+	{
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<BoxCollider2D>().enabled = false;
+		StopLine();
 	}
 }

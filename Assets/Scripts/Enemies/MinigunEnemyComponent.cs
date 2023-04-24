@@ -39,6 +39,7 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 
 	//sound
 	private AudioSource minigunSound;
+	private bool isDead = false;
 
 	void Start()
 	{
@@ -91,6 +92,8 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 		minigunSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
+		isDead = true;
+		HideObject();
 		Destroy(gameObject, 1f);
 	}
 
@@ -187,5 +190,12 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
 
 		return m_health;
+	}
+
+	public void HideObject()
+	{
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<BoxCollider2D>().enabled = false;
+		StopLine();
 	}
 }

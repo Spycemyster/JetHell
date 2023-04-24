@@ -27,6 +27,7 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	private EnemyHealthController m_enemyHealthScript;
 	//sound
 	private AudioSource burstSound;
+	private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -61,7 +62,7 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
+		if (other.gameObject.GetComponent<PlayerBulletController>() != null && !isDead)
 		{
 			TakeDamage();
 			if (m_health <= 0)
@@ -78,6 +79,8 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 		burstSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
+		isDead = true;
+		HideObject();
 		Destroy(gameObject, 1f);
 	}
 
@@ -109,5 +112,11 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
 
 		return m_health;
+	}
+
+	public void HideObject()
+	{
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<BoxCollider2D>().enabled = false;
 	}
 }

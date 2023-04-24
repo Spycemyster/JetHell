@@ -35,7 +35,14 @@ public class SpecialPickupHandler : MonoBehaviour
         pickedUp = true;
         player.PlayerSetSpecial(specialItem);
         ammoSound.Play();
+        HideObject();
         Destroy(gameObject, 1f);
     }
+
+	public void HideObject()
+	{
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<CircleCollider2D>().enabled = false;
+	}
 
 }

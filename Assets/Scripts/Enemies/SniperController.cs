@@ -195,7 +195,6 @@ public class SniperController : MonoBehaviour, IEnemy
 	{
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
-		StopCoroutine(m_behaviorCoroutine);
 		StopLine();
 	}
 }

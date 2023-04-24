@@ -39,6 +39,7 @@ public class SniperController : MonoBehaviour, IEnemy
 
 	//sounds
 	private AudioSource sniperSound;
+	private bool isDead = false;
 
 	void Start()
 	{
@@ -73,7 +74,7 @@ public class SniperController : MonoBehaviour, IEnemy
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
+		if (other.gameObject.GetComponent<PlayerBulletController>() != null && !isDead)
 		{
 			TakeDamage();
 			if (m_health <= 0)
@@ -95,6 +96,8 @@ public class SniperController : MonoBehaviour, IEnemy
 		sniperSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
+		isDead = true;
+		HideObject();
 		Destroy(gameObject, 1f);
 	}
 
@@ -186,5 +189,13 @@ public class SniperController : MonoBehaviour, IEnemy
 	public void SetWaitTime(float avgWaitTime)
 	{
 		avgTime = avgWaitTime;
+	}
+
+	public void HideObject()
+	{
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<BoxCollider2D>().enabled = false;
+		StopCoroutine(m_behaviorCoroutine);
+		StopLine();
 	}
 }

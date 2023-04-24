@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[RequireComponent(typeof(AudioSource))]
+
 
 public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 {
@@ -29,6 +31,9 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 
 	private EnemyHealthController m_enemyHealthScript;
 
+	//sound
+	private AudioSource shotgunSound;
+
 	void Start()
 	{
 		m_behaviorCoroutine = StartCoroutine(Behavior());
@@ -37,6 +42,9 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 		lineOn = false;
 
 		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
+
+		//sound
+		shotgunSound = gameObject.GetComponent<AudioSource>();
 	}
 
 	IEnumerator Behavior()
@@ -82,9 +90,10 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 	public void DestroyedByPlayer()
 	{
 		PlayerController playerScript = Player.GetComponent<PlayerController>();
+		shotgunSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
-		Destroy(gameObject);
+		Destroy(gameObject, 2f);
 	}
 
 	void ShootBullet()

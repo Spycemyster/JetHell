@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AttackIndicatorController : MonoBehaviour
 {
+    public GameObject parent;
+
     public delegate void AttackEvent(GameObject attackIndicator);
     public AttackEvent Attack;
 
@@ -16,7 +18,7 @@ public class AttackIndicatorController : MonoBehaviour
     private bool doSendAttack;
     private float timeElapsed = 0f;
 
-    public void InitializeIndicator(float attackRadius, float attackTime, bool sendAttack, AttackEvent attack)
+    public void InitializeIndicator(float attackRadius, float attackTime, bool sendAttack, AttackEvent attack, GameObject parent)
     {
         attackLoad.transform.localScale = Vector2.zero;
         transform.localScale = new Vector2(attackRadius*2, attackRadius*2);
@@ -25,6 +27,8 @@ public class AttackIndicatorController : MonoBehaviour
         this.attackTimeWait = attackTime;
         this.doSendAttack = sendAttack;
         Attack = attack;
+
+        this.parent = parent;
     }
 
     public void SetLoad(float percentage)
@@ -44,6 +48,8 @@ public class AttackIndicatorController : MonoBehaviour
                 Attack(gameObject);
             }
         }
+
+        transform.position = parent.transform.position;
     }
 
 }

@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [RequireComponent(typeof(AudioSource))]
-
-
-public class MeleeEnemyComponent : MonoBehaviour, IEnemy
+public class MeleeBossComponent : MonoBehaviour, IEnemy
 {
 	[SerializeField]
 	public PlayerController Player
@@ -13,8 +12,8 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 		set;
 	}
 
-	private int m_maxHealth = 4;
-	private int m_health = 4;
+	private int m_maxHealth = 50;
+	private int m_health = 50;
 	private const float DELAY_TIME = 1f;
 
 	private float m_delayTimer = 0f;
@@ -23,7 +22,7 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 	private bool m_isMoving = false;
 	private Coroutine m_behaviorCoroutine = null;
 
-	private float moveSpeed = 2f;
+	private float moveSpeed = 4f;
 
     private float avgTime = 4f;
     private const float variation = 1f;
@@ -55,6 +54,8 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 		deathSound = gameObject.GetComponent<AudioSource>();
 
         rb = GetComponent<Rigidbody2D>();
+
+        m_isMoving = true;
 	}
 
 	IEnumerator Behavior()
@@ -64,12 +65,12 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
             yield return new WaitForSeconds(.2f); // wait for initialization
             // take aim
 			PrepareAttack();
-            m_isMoving = false;
+            //m_isMoving = false;
 			yield return new WaitForSeconds(attackTime);
 			// shoot in player direction
 			//Attack();
             // Move
-            m_isMoving = true;
+            //m_isMoving = true;
             float waitTime = Random.Range(avgTime - variation, avgTime + variation);
             // wait for amount of time
 			yield return new WaitForSeconds(waitTime);
@@ -164,7 +165,7 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 	public void HideObject()
 	{
 		GetComponent<SpriteRenderer>().enabled = false;
-		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<CircleCollider2D>().enabled = false;
         foreach (GameObject attackIndicator in attackIndicators)
         {
             Destroy(attackIndicator);

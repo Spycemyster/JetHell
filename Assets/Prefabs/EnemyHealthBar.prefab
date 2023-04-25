@@ -97,3 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f72fd462378c0420ba88d8373802d589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_deathExplosionPrefab: {fileID: 4330875973638251429, guid: 9673e31268ed05d439add0adbb6e57bd, type: 3}
+  m_deathSounds: []

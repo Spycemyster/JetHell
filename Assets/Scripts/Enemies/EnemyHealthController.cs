@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyHealthController : MonoBehaviour
 {
+	[SerializeField] private GameObject m_deathExplosionPrefab;
+	[SerializeField] private AudioClip[] m_deathSounds;
     private Vector3 m_localScale;
     private SpriteRenderer sr;
 
@@ -14,6 +16,12 @@ public class EnemyHealthController : MonoBehaviour
 
         sr = GetComponent<SpriteRenderer>();
     }
+
+	void OnDestroy()
+	{
+		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
+		AudioSource.PlayClipAtPoint(m_deathSounds[Random.Range(0, m_deathSounds.Length)], transform.position);
+	}
 
     public void SetHealthEnemy(float healthPercentage)
     {

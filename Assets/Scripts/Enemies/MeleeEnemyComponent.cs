@@ -23,7 +23,7 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 	private bool m_isMoving = false;
 	private Coroutine m_behaviorCoroutine = null;
 
-	private float moveSpeed = 4f;
+	private float moveSpeed = 2f;
 
     private float avgTime = 4f;
     private const float variation = 1f;
@@ -41,6 +41,9 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
     private HashSet<GameObject> attackIndicators = new HashSet<GameObject>();
     private float attackRadius = 3f;
     private float attackTime = 1.5f;
+    private bool m_isAttacking = false;
+
+    private Rigidbody2D rb;
 
 	void Start()
 	{
@@ -50,6 +53,8 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 
 		//sound
 		deathSound = gameObject.GetComponent<AudioSource>();
+
+        rb = GetComponent<Rigidbody2D>();
 	}
 
 	IEnumerator Behavior()
@@ -59,10 +64,12 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
             yield return new WaitForSeconds(.2f); // wait for initialization
             // take aim
 			PrepareAttack();
-			yield return new WaitForSeconds(shootTime);
+            m_isMoving = false;
+			yield return new WaitForSeconds(attackTime);
 			// shoot in player direction
 			//Attack();
-
+            // Move
+            m_isMoving = true;
             float waitTime = Random.Range(avgTime - variation, avgTime + variation);
             // wait for amount of time
 			yield return new WaitForSeconds(waitTime);
@@ -107,6 +114,7 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
         AttackIndicatorController attackIndicatorScript = newAttack.GetComponent<AttackIndicatorController>();
 
         attackIndicatorScript.InitializeIndicator(attackRadius, attackTime, true, Attack);
+        m_isAttacking = true;
     }
 
     public void Attack(GameObject attackIndicator)
@@ -127,13 +135,15 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
         // Remove indicator
         attackIndicators.Remove(attackIndicator);
         Destroy(attackIndicator);
+        m_isAttacking = false;
     }
 
 	void FixedUpdate()
 	{
 		if (m_isMoving)
 		{
-			transform.position = Vector2.MoveTowards(transform.position, targetPoint, moveSpeed * Time.fixedDeltaTime);
+			//transform.position = Vector2.MoveTowards(transform.position, targetPoint, moveSpeed * Time.fixedDeltaTime);
+            rb.velocity = (Player.transform.position - transform.position).normalized * moveSpeed; //Vector2.MoveTowards(transform.position, Player.transform.position, moveSpeed);
 		}
 	}
 

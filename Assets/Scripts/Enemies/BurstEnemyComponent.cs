@@ -16,7 +16,6 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	private int m_maxHealth = 5;
 	private int m_health = 5;
 	[SerializeField] private GameObject m_bulletPrefab;
-	[SerializeField] private GameObject m_deathExplosionPrefab;
 	private const float FIRE_RATE = 2f;
 	private const int BURST_COUNT = 3;
 	private const float BURST_DELAY = 2f;
@@ -60,11 +59,6 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 			}
 		}
     }
-
-	void OnDestroy()
-	{
-		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
-	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{

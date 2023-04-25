@@ -13,7 +13,6 @@ public class SpongeBossComponent : MonoBehaviour, IEnemy
 	private int m_maxHealth = 50;
 	private int m_health = 50;
 	[SerializeField] private GameObject m_bulletPrefab;
-	[SerializeField] private GameObject m_deathExplosionPrefab;
 
 	private float m_delayTimer = 0f;
 	private Vector2 targetPoint;
@@ -59,11 +58,6 @@ public class SpongeBossComponent : MonoBehaviour, IEnemy
 
         initialSpeed = initialVelocity.magnitude;
         finalSpeed = initialSpeed * 3f;
-	}
-
-	void OnDestroy()
-	{
-		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
 	}
 
 	IEnumerator Behavior()

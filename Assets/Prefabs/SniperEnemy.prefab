@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletPrefab: {fileID: 6228404719886846381, guid: d1159938ebae81e4e94cbf6d9a7caffa, type: 3}
-  m_deathExplosionPrefab: {fileID: 4330875973638251429, guid: 9673e31268ed05d439add0adbb6e57bd, type: 3}
 --- !u!120 &650372093323858247
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -375,6 +374,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathExplosionPrefab
+      value: 
+      objectReference: {fileID: 4330875973638251429, guid: 9673e31268ed05d439add0adbb6e57bd, type: 3}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathSounds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: bd55af92faa844a74b1c646e94616319, type: 3}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 95636963133ad43a39c0de51b6b7e576, type: 3}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: c7df751efb50743f6b7891e0ae7fe158, type: 3}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 71308c8c27cd044158a435613ce35504, type: 3}
+    - target: {fileID: 6040656417761669028, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
+      propertyPath: m_deathSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: af15ce669be8f4f5c80b8b5ffd123c94, type: 3}
     - target: {fileID: 6114554118531859300, guid: 19ff4bd775f3f49b0a8dd84ca1cf46cd, type: 3}
       propertyPath: m_Name
       value: EnemyHealthBar

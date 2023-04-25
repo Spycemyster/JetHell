@@ -15,7 +15,6 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 	private int m_maxHealth = 5;
 	private int m_health = 5;
 	[SerializeField] private GameObject m_bulletPrefab;
-	[SerializeField] private GameObject m_deathExplosionPrefab;
 	private const float DELAY_TIME = 1f;
 
 	private float m_delayTimer = 0f;
@@ -47,11 +46,6 @@ public class ShotgunEnemyCompoennt : MonoBehaviour, IEnemy
 
 		//sound
 		shotgunSound = gameObject.GetComponent<AudioSource>();
-	}
-
-	void OnDestroy()
-	{
-		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
 	}
 
 	IEnumerator Behavior()

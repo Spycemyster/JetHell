@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(AudioSource))]
 
 public class HealthPackController : MonoBehaviour
 {
+	[SerializeField] private AudioClip m_pickupSource;
     public PlayerController player;
     private int healthPackIncrease = 1;
-    private AudioSource healthSound;
 
     private bool pickedUp = false;
     // Start is called before the first frame update
     void Start()
     {
-        healthSound = gameObject.GetComponent<AudioSource>();
         
     }
 
@@ -47,7 +45,7 @@ public class HealthPackController : MonoBehaviour
         pickedUp = true;
         player.GetComponent<PlayerController>().IncreaseHealth(healthPackIncrease);
         HideObject();
-        healthSound.Play();
+		AudioSource.PlayClipAtPoint(m_pickupSource, transform.position);
         Destroy(gameObject, 1f);
     }
 

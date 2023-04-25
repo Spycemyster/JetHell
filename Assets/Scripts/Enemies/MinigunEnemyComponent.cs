@@ -176,13 +176,6 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 		lr.SetPositions(pos);
 	}
 
-	void StopLine()
-	{
-		lineOn = false;
-		lr.positionCount = 0;
-		lr.enabled = false;
-	}
-
 	public int TakeDamage(int damage = 1)
 	{
 		m_health -= damage;
@@ -196,6 +189,5 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 	{
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
-		StopLine();
 	}
 }

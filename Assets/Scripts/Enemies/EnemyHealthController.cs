@@ -17,11 +17,20 @@ public class EnemyHealthController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
-	void OnDestroy()
+	/*void OnDestroy()
 	{
 		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
 		AudioSource.PlayClipAtPoint(m_deathSounds[Random.Range(0, m_deathSounds.Length)], transform.position);
-	}
+	}*/
+
+    void OnKilled()
+    {
+        Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
+        if (m_deathSounds.Length > 0)
+        {
+		    AudioSource.PlayClipAtPoint(m_deathSounds[Random.Range(0, m_deathSounds.Length)], transform.position);
+        }
+    }
 
     public void SetHealthEnemy(float healthPercentage)
     {
@@ -33,5 +42,10 @@ public class EnemyHealthController : MonoBehaviour
             sr.enabled = true;
         }
         transform.localScale = m_localScale;
+
+        if (healthPercentage == 0)
+        {
+            OnKilled();
+        }
     }
 }

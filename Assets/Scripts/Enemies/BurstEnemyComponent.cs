@@ -43,7 +43,7 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
     {
 		m_fireTimer += Time.fixedDeltaTime;
 		m_delayTimer += Time.fixedDeltaTime;
-        if (m_delayTimer > BURST_DELAY && m_fireTimer > 1 / FIRE_RATE)
+        if (m_delayTimer > BURST_DELAY && m_fireTimer > 1 / FIRE_RATE && !isDead)
 		{
 			m_fireTimer = 0f;
 

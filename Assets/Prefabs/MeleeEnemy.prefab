@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndicatorPrefab: {fileID: 7588566358113775912, guid: 173f3e0faadd54a688af70a2f950f6f8, type: 3}
+  m_deathExplosionPrefab: {fileID: 4330875973638251429, guid: 9673e31268ed05d439add0adbb6e57bd, type: 3}
 --- !u!1001 &2175055540755955276
 PrefabInstance:
   m_ObjectHideFlags: 0

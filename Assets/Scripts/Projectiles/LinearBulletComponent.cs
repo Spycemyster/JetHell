@@ -17,6 +17,11 @@ public class LinearBulletComponent : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
     }
 
+	void OnDestroy()
+	{
+		Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
+	}
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -27,7 +32,6 @@ public class LinearBulletComponent : MonoBehaviour
 	{
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
-			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
 			//Destroy(gameObject);
 			DestroyedByPlayer();
@@ -36,14 +40,12 @@ public class LinearBulletComponent : MonoBehaviour
 		{			
 			PlayerController playerScript = other.gameObject.GetComponent<PlayerController>();
 			if (!playerScript.isInvincible()) {
-				Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 				playerScript.TakeDamage(1f);
 			}
 			Destroy(gameObject);
 		}
 		else if (other.gameObject.CompareTag("Wall"))
 		{
-			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(gameObject);
 		}
 	}

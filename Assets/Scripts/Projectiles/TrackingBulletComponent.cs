@@ -17,6 +17,11 @@ public class TrackingBulletComponent : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 	}
 
+	void OnDestroy()
+	{
+		Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
+	}
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -33,14 +38,12 @@ public class TrackingBulletComponent : MonoBehaviour
 	{
 		if (other.gameObject.GetComponent<PlayerBulletController>() != null)
 		{
-			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			other.gameObject.GetComponent<PlayerBulletController>().DealDamage(1);
 			//Destroy(gameObject);
 			DestroyedByPlayer();
 		}
 		else if (other.gameObject.GetComponent<PlayerController>() != null)
 		{
-			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			PlayerController playerScript = other.gameObject.GetComponent<PlayerController>();
 			if (!playerScript.isInvincible()) {
 				playerScript.TakeDamage(1f);
@@ -49,7 +52,6 @@ public class TrackingBulletComponent : MonoBehaviour
 		}
 		else if (other.gameObject.CompareTag("Wall"))
 		{
-			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(gameObject);
 			//DestroyAfterTime(.05f);
 		}

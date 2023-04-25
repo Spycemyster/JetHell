@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletPrefab: {fileID: 6228404719886846381, guid: d1159938ebae81e4e94cbf6d9a7caffa, type: 3}
+  m_deathExplosionPrefab: {fileID: 4330875973638251429, guid: 9673e31268ed05d439add0adbb6e57bd, type: 3}
 --- !u!120 &650372093323858247
 LineRenderer:
   m_ObjectHideFlags: 0

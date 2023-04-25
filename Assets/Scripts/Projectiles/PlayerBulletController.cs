@@ -23,6 +23,11 @@ public class PlayerBulletController : MonoBehaviour
         timeAlive = 0f;
     }
 
+	void OnDestroy()
+	{
+		Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
+	}
+
     // Update is called once per frame
     void Update()
     {
@@ -38,7 +43,6 @@ public class PlayerBulletController : MonoBehaviour
     {
 		if (other.gameObject.CompareTag("Wall"))
 		{
-			Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
 			Destroy(gameObject);
             //DestroyAfterTime(.05f);
 		}

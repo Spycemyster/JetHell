@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletPrefab: {fileID: 7072427037415643099, guid: 5b2fe737695ebf04dad9b1a2d18b86cc, type: 3}
+  m_deathExplosionPrefab: {fileID: 4330875973638251429, guid: 9673e31268ed05d439add0adbb6e57bd, type: 3}
 --- !u!61 &-1004616565849897590
 BoxCollider2D:
   m_ObjectHideFlags: 0

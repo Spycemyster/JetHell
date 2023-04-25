@@ -15,6 +15,7 @@ public class SniperController : MonoBehaviour, IEnemy
 	private int m_maxHealth = 1;
 	private int m_health = 1;
 	[SerializeField] private GameObject m_bulletPrefab;
+	[SerializeField] private GameObject m_deathExplosionPrefab;
 	private const float DELAY_TIME = 1f;
 
 	private float m_delayTimer = 0f;
@@ -70,6 +71,11 @@ public class SniperController : MonoBehaviour, IEnemy
 			yield return new WaitForSeconds(waitTime);
 
 		}
+	}
+
+	void OnDestroy()
+	{
+		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

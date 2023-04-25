@@ -38,6 +38,7 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 	private bool isDead = false;
 
     [SerializeField] private GameObject attackIndicatorPrefab;
+	[SerializeField] private GameObject m_deathExplosionPrefab;
     private HashSet<GameObject> attackIndicators = new HashSet<GameObject>();
     private float attackRadius = 3f;
     private float attackTime = 1.5f;
@@ -50,6 +51,11 @@ public class MeleeEnemyComponent : MonoBehaviour, IEnemy
 
 		//sound
 		deathSound = gameObject.GetComponent<AudioSource>();
+	}
+
+	void OnDestroy()
+	{
+		Instantiate(m_deathExplosionPrefab, transform.position, Quaternion.identity);
 	}
 
 	IEnumerator Behavior()

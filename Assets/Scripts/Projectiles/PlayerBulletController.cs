@@ -35,14 +35,16 @@ public class PlayerBulletController : MonoBehaviour
 
         if (timeAlive > timeAliveMax)
         {
+			PlayerController.AddMiss();
             Destroy(gameObject);
         }
     }
 
 	void OnTriggerEnter2D(Collider2D other)
     {
-		if (other.gameObject.CompareTag("Wall"))
+		if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Shield"))
 		{
+			PlayerController.AddMiss();
 			Destroy(gameObject);
             //DestroyAfterTime(.05f);
 		}

@@ -108,8 +108,9 @@ public class BurstEnemyComponent : MonoBehaviour, IEnemy
 	public int TakeDamage(int damage = 1)
 	{
 		m_health -= damage;
-
+		
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
+		PlayerController.AddHit();
 
 		return m_health;
 	}

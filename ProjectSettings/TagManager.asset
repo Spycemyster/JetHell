@@ -10,6 +10,9 @@ TagManager:
   - Wall
   - Music
   - EnemyBullet
+  - Canvas
+  - PrefabCanvas
+  - Shield
   layers:
   - Default
   - TransparentFX

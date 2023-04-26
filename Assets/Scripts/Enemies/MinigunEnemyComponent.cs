@@ -181,6 +181,7 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 		m_health -= damage;
 
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
+		PlayerController.AddHit();
 
 		return m_health;
 	}
@@ -189,5 +190,6 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 	{
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
+		StopShooting();
 	}
 }

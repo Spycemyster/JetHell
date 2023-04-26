@@ -89,8 +89,11 @@ public class SpecialShotgunController : MonoBehaviour, ISpecial
 
 	private void Update()
 	{
-		ammoTime -= Time.deltaTime;
-		specialHandler.SetAmmo(ammoTime/maxAmmoTime);
+		if (!GameHandler.isResting)
+		{
+			ammoTime -= Time.deltaTime;
+			specialHandler.SetAmmo(ammoTime/maxAmmoTime);
+		}
 		if (ammoTime <= 0)
 		{
 			specialHandler.RemoveSpecial();

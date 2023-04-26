@@ -182,6 +182,7 @@ public class SniperController : MonoBehaviour, IEnemy
 		m_health -= damage;
 
 		m_enemyHealthScript.SetHealthEnemy((float)m_health/m_maxHealth);
+		PlayerController.AddHit();
 
 		return m_health;
 	}

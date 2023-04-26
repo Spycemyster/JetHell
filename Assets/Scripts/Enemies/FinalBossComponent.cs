@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class MeleeBossComponent : MonoBehaviour, IEnemy
+public class FinalBossComponent : MonoBehaviour, IEnemy
 {
 	[SerializeField]
 	public PlayerController Player
@@ -24,7 +24,7 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 
 	private float moveSpeed = 4f;
 
-    private float avgTime = 1f;
+    private float avgTime = 2.5f;
     private const float variation = .5f;
     private const float shootTime = 1f;
 
@@ -38,7 +38,7 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 
     [SerializeField] private GameObject attackIndicatorPrefab;
     private HashSet<GameObject> attackIndicators = new HashSet<GameObject>();
-    private float attackRadius = 4f;
+    private float attackRadius = 2f;
     private float attackTime = 1.5f;
     private bool m_isAttacking = false;
 
@@ -56,11 +56,7 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 		m_enemyHealthScript = GetComponentInChildren<EnemyHealthController>();
 
 		//sound
-		deathSound = gameObject.GetComponent<AudioSource>();
-
-        rb = GetComponent<Rigidbody2D>();
-
-        m_isMoving = true;
+		//deathSound = gameObject.GetComponent<AudioSource>();
 
         Invoke("InstantiateShield", .05f);
 	}
@@ -76,17 +72,27 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 		while (true)
 		{
             yield return new WaitForSeconds(.2f); // wait for initialization
+            // shoot every 2 seconds, loop every 8
+
+            ShootBullet();
+			yield return new WaitForSeconds(Random.Range(avgTime - variation, avgTime + variation));
+            ShootBullet();
+			yield return new WaitForSeconds(Random.Range(avgTime - variation, avgTime + variation));
+
+            ShootBullet();
+
+            yield return new WaitForSeconds(2f);
+
             // take aim
 			PrepareAttack();
-            //m_isMoving = false;
-			yield return new WaitForSeconds(attackTime);
-			// shoot in player direction
-			//Attack();
-            // Move
-            //m_isMoving = true;
-            float waitTime = Random.Range(avgTime - variation, avgTime + variation);
-            // wait for amount of time
-			yield return new WaitForSeconds(waitTime);
+			yield return new WaitForSeconds(.5f);
+			PrepareAttack();
+			yield return new WaitForSeconds(.5f);
+			PrepareAttack();
+			yield return new WaitForSeconds(2f);
+
+            ShootBullet();
+			yield return new WaitForSeconds(Random.Range(avgTime - variation, avgTime + variation));
 
 		}
 	}
@@ -112,24 +118,24 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 	public void DestroyedByPlayer()
 	{
 		PlayerController playerScript = Player.GetComponent<PlayerController>();
-		deathSound.Play();
+		//deathSound.Play();
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
 		isDead = true;
 		HideObject();
 		Destroy(gameObject, 1f);
-
+        
         playerScript.IncreaseHealth(2);
 	}
     
     public void PrepareAttack()
     {
         // Create attack indicator
-        GameObject newAttack = Instantiate(attackIndicatorPrefab, transform.position, Quaternion.identity);
+        GameObject newAttack = Instantiate(attackIndicatorPrefab, Player.transform.position, Quaternion.identity);
         attackIndicators.Add(newAttack);
         AttackIndicatorController attackIndicatorScript = newAttack.GetComponent<AttackIndicatorController>();
 
-        attackIndicatorScript.InitializeIndicator(attackRadius, attackTime, true, Attack, gameObject);
+        attackIndicatorScript.InitializeIndicator(attackRadius, attackTime, true, Attack, gameObject, followParent:false);
         m_isAttacking = true;
     }
 
@@ -138,7 +144,7 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
         Debug.Log("Melee attack");
         AttackIndicatorController attackIndicatorScript = attackIndicator.GetComponent<AttackIndicatorController>();
 
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackIndicatorScript.attackRadius);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackIndicator.transform.position, attackIndicatorScript.attackRadius);
         foreach (Collider2D collider in hitColliders)
         {
             GameObject collided = collider.gameObject;
@@ -152,7 +158,6 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
         attackIndicators.Remove(attackIndicator);
         Destroy(attackIndicator);
         m_isAttacking = false;
-        ShootBullet();
     }
 
 	void FixedUpdate()
@@ -208,7 +213,7 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 		Vector2 direction = Player.transform.position - transform.position;
 		direction = direction.normalized;
 
-        int count = 20;
+        int count = 30;
         for (int i = 0; i < count; i++)
         {
             GameObject bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity) as GameObject;

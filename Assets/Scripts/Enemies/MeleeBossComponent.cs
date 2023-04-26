@@ -44,6 +44,11 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
 
     private Rigidbody2D rb;
 
+    [SerializeField] GameObject shieldPrefab;
+    private GameObject currentShield;
+
+    [SerializeField] GameObject m_bulletPrefab;
+
 	void Start()
 	{
 		m_behaviorCoroutine = StartCoroutine(Behavior());
@@ -56,6 +61,9 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
         rb = GetComponent<Rigidbody2D>();
 
         m_isMoving = true;
+
+        currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+        currentShield.GetComponent<ShieldController>().InitializeShield(gameObject, Player.gameObject);
 	}
 
 	IEnumerator Behavior()
@@ -137,6 +145,7 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
         attackIndicators.Remove(attackIndicator);
         Destroy(attackIndicator);
         m_isAttacking = false;
+        ShootBullet();
     }
 
 	void FixedUpdate()
@@ -169,6 +178,42 @@ public class MeleeBossComponent : MonoBehaviour, IEnemy
         foreach (GameObject attackIndicator in attackIndicators)
         {
             Destroy(attackIndicator);
+        }
+	}
+
+    void OnDestroy()
+    {
+        if (currentShield)
+        {
+            Destroy(currentShield);
+        }
+        foreach (GameObject attackIndicator in attackIndicators)
+        {
+            Destroy(attackIndicator);
+        }
+    }
+
+	void ShootBullet()
+	{
+		if (!Player)
+			return;
+		Vector2 direction = Player.transform.position - transform.position;
+		direction = direction.normalized;
+
+        int count = 10;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity) as GameObject;
+            bullet.transform.position = transform.position;
+            LinearBulletComponent linearComponent = bullet.GetComponent<LinearBulletComponent>();
+
+            if (linearComponent)
+            {
+                var angle = i * (360f / count);
+                var bulletDirection = Quaternion.Euler(0, 0, angle) * Vector3.up;
+                linearComponent.Velocity = bulletDirection * 5f;
+            }
+
         }
 	}
 }

@@ -45,6 +45,8 @@ public class GameHandler : MonoBehaviour
 	private int m_bagIndex = 0;
 	private int m_bossIndex = 0;
 
+	public static bool isResting = false;
+
 	private void Start()
 	{
 		Time.timeScale = 1f;
@@ -88,11 +90,14 @@ public class GameHandler : MonoBehaviour
 				case GamePhase.REST_PHASE_BEFORE_SURVIVAL:
 					phaseText.enabled = true;
 					phaseText.text = $"Survival Phase {m_roundIndex}";
+					isResting = true;
 					yield return new WaitForSeconds(restPhaseDuration);
+					isResting = false;
 					m_gamePhase = GamePhase.SURVIVAL_PHASE;
 					phaseText.enabled = false;
 					break;
 				case GamePhase.SURVIVAL_PHASE:
+					//survivalPhaseDuration = 1f; // Debugging line
 					yield return new WaitForSeconds(survivalPhaseDuration);
 					m_gamePhase = GamePhase.REST_PHASE_BEFORE_MINIGAME;
 					break;
@@ -106,7 +111,9 @@ public class GameHandler : MonoBehaviour
 					{
 						phaseText.text = "Minigame Incoming...";
 					}
+					isResting = true;
 					yield return new WaitForSeconds(minigameRestPhaseDuration);
+					isResting = false;
 					phaseText.enabled = false;
 					ClearAllSurvivalEnemies();
 					//ClearAllEnemyBullets();
@@ -175,7 +182,7 @@ public class GameHandler : MonoBehaviour
 			Shuffle<int>(m_randomBag);
 			m_bagIndex = 0;
 		}
-		if (m_roundIndex % 3 == 2)
+		if (m_roundIndex % 4 == 3)
 		{
 			// Return boss level
 			if (bossPrefabs != null && bossPrefabs.Length > 0)
@@ -192,7 +199,7 @@ public class GameHandler : MonoBehaviour
 
 	private bool IsBossIncoming()
 	{
-		if (m_bagIndex >= minigamePrefabs.Length && bossPrefabs != null && bossPrefabs.Length > 0)
+		if (bossPrefabs.Length > 0 && m_roundIndex % 4 == 3)
 		{
 			return true;
 		}

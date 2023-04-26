@@ -45,6 +45,12 @@ public class LevelHandler : MonoBehaviour
 		Player = player;
 		m_timer = timer;
 		player.transform.position = initialPlayerPosition;
+
+		GameObject prefabCanvas = GameObject.FindGameObjectWithTag("PrefabCanvas");
+		if (prefabCanvas)
+		{
+			prefabCanvas.GetComponent<Canvas>().worldCamera = mainCamera;
+		}
 	}
 
 	private void Start()
@@ -118,7 +124,7 @@ public class LevelHandler : MonoBehaviour
 		{
 			if (m_timer >= 0)
 			{
-				timerText.text = m_timer.ToString("0.0");
+				timerText.text = "Time left: " + m_timer.ToString("0.0");
 				m_timer -= Time.fixedDeltaTime;
 				if (m_timer <= 0)
 				{

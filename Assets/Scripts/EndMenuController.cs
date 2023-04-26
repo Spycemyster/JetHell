@@ -25,8 +25,9 @@ public class EndMenuController : MonoBehaviour
         }
         else
         {
+            accuracyNum *= 100;
             Debug.Log("Accuracy: " + accuracyNum);
-            accuracy.text = "Accuracy: " + accuracyNum.ToString("00.00") + "%";
+            accuracy.text = "Accuracy: " + accuracyNum.ToString(".00") + "%";
         }
 
         endGameUI.SetActive(true);

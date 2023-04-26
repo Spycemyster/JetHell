@@ -195,6 +195,16 @@ public class SpongeBossComponent : MonoBehaviour, IEnemy
         rb.velocity = rb.velocity.normalized * newSpeed;
         lastVelocity = rb.velocity;
 
+		PlayerController.AddHit();
+
 		return m_health;
 	}
+
+    void OnDestroy()
+    {
+        if (currentShield)
+        {
+            Destroy(currentShield);
+        }	
+    }
 }

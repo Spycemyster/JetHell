@@ -46,6 +46,7 @@ public class GameHandler : MonoBehaviour
 	private int m_bossIndex = 0;
 
 	public static bool isResting = false;
+	[SerializeField] private GameObject endGameScreen;
 
 	private void Start()
 	{
@@ -187,7 +188,7 @@ public class GameHandler : MonoBehaviour
 			Shuffle<int>(m_randomBag);
 			m_bagIndex = 0;
 		}
-		if (m_roundIndex % 4 == 3 || true)
+		if (m_roundIndex % 4 == 3)
 		{
 			// Return boss level
 			if (bossPrefabs != null && bossPrefabs.Length > 0)
@@ -213,12 +214,20 @@ public class GameHandler : MonoBehaviour
 
 	private bool BeatGame()
 	{
-		return m_bossIndex == 3;
+		return m_bossIndex >= 3;
 	}
 
-	private void GoToEndScreen()
+	public void GoToEndScreen(string descriptionStr)
 	{
+		if (endGameScreen != null)
+		{
+			EndMenuController endScript = endGameScreen.GetComponent<EndMenuController>();
 
+			phaseText.enabled = false;
+
+			Debug.Log("Accuracy: " + Player.GetAccuracy());
+			endScript.RevealScreen(descriptionStr, Player.GetKills(), Player.GetAccuracy());
+		}
 	}
 
 	private void OnFailMinigame()
@@ -290,6 +299,18 @@ public class GameHandler : MonoBehaviour
 			{
 				Player.PlayerSpawnSpecial(0);
 			}
+		}
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Plus))
+		{
+			GetPsuedoRandomLevel();
+		}
+		if (Input.GetKeyDown(KeyCode.Minus))
+		{
+			GoToEndScreen("You died!");
 		}
 	}
 

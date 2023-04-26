@@ -11,7 +11,7 @@ public class SpecialHandler : MonoBehaviour
     [SerializeField] public GameObject m_ammoDisplay;
 
     [SerializeField] private bool m_spawnPickup = false;
-    private const float m_spawnDelay = 5f;
+    private const float m_spawnDelay = 12f;
     private float m_spawnDelayTimer = 0f;
 
 	public Vector2 TopLeft = new Vector2(-30, 15);

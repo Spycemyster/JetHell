@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
     private float friction = 5f;
     private bool isSlowMode = false;
 
+    private static int hits = 0;
+    private static int misses = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -277,7 +280,22 @@ public class PlayerController : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         isDead = true;
 
-        Invoke("RestartLevel", 3f);
+        if (!EndScreen())
+        {
+            Invoke("RestartLevel", 3f);
+        }
+    }
+
+    public bool EndScreen()
+    {
+        Camera cam = Camera.current;
+
+        if (cam != null && cam.GetComponent<GameHandler>() != null)
+        {
+            cam.GetComponent<GameHandler>().GoToEndScreen("You died!");
+            return true;
+        }
+        return false;
     }
 
     public void SetOpacity()
@@ -366,5 +384,25 @@ public class PlayerController : MonoBehaviour
         {
             specialHandler.DestroyedValue(value);
         }
+    }
+
+    public int GetKills()
+    {
+        return kills;
+    }
+
+    public static void AddHit()
+    {
+        hits++;
+    }
+
+    public static void AddMiss()
+    {
+        misses++;
+    }
+
+    public float GetAccuracy()
+    {
+        return (float)hits / (hits+misses);
     }
 }

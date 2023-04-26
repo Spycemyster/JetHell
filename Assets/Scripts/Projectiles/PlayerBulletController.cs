@@ -35,6 +35,7 @@ public class PlayerBulletController : MonoBehaviour
 
         if (timeAlive > timeAliveMax)
         {
+			PlayerController.AddMiss();
             Destroy(gameObject);
         }
     }
@@ -43,6 +44,7 @@ public class PlayerBulletController : MonoBehaviour
     {
 		if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Shield"))
 		{
+			PlayerController.AddMiss();
 			Destroy(gameObject);
             //DestroyAfterTime(.05f);
 		}

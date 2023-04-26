@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletPrefab: {fileID: 6228404719886846381, guid: d1159938ebae81e4e94cbf6d9a7caffa, type: 3}
+  shieldPrefab: {fileID: 3823345823383606952, guid: 358263a2494454e85801265a0a7e3bdd, type: 3}
 --- !u!50 &2459243925377125001
 Rigidbody2D:
   serializedVersion: 4

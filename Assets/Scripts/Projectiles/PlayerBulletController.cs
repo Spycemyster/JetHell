@@ -41,7 +41,7 @@ public class PlayerBulletController : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
     {
-		if (other.gameObject.CompareTag("Wall"))
+		if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Shield"))
 		{
 			Destroy(gameObject);
             //DestroyAfterTime(.05f);

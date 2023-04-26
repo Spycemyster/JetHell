@@ -1837,6 +1837,8 @@ MonoBehaviour:
   - {fileID: 1807730754178038885, guid: 1ae9ab27484bf4ec695750606b08e7c8, type: 3}
   bossPrefabs:
   - {fileID: 1807730754178038885, guid: a3d7e7c804d444717a53fbcf44b416f5, type: 3}
+  - {fileID: 1807730754178038885, guid: f2e0032a3e0b147fa8c6d1fbe1b58317, type: 3}
+  - {fileID: 1807730754178038885, guid: 5de821d7eb4a2439a99fc1d7540827ce, type: 3}
   healthPackPrefab: {fileID: 1484028202065025121, guid: b58e6bb63d01d4e339b3d36676500896, type: 3}
   survivalEnemiesParent: {fileID: 2052039845}
   m_bulletContainer: {fileID: 0}

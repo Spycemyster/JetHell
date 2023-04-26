@@ -43,6 +43,9 @@ public class SpongeBossComponent : MonoBehaviour, IEnemy
 	private float initialFireDelay = 2f;
     private float finalFireDelay = .5f;
 
+    [SerializeField] GameObject shieldPrefab;
+    private GameObject currentShield;
+
 	void Start()
 	{
 		m_behaviorCoroutine = StartCoroutine(Behavior());
@@ -58,7 +61,15 @@ public class SpongeBossComponent : MonoBehaviour, IEnemy
 
         initialSpeed = initialVelocity.magnitude;
         finalSpeed = initialSpeed * 3f;
+
+        Invoke("InstantiateShield", .05f);
 	}
+
+    public void InstantiateShield()
+    {
+        currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+        currentShield.GetComponent<ShieldController>().InitializeShield(gameObject, Player.gameObject);
+    }
 
 	IEnumerator Behavior()
 	{
@@ -101,6 +112,8 @@ public class SpongeBossComponent : MonoBehaviour, IEnemy
 		playerScript.AddKill();
 		playerScript.DestroyedValue(.5f);
 		Destroy(gameObject);
+
+        playerScript.IncreaseHealth(2);
 	}
 
 	void ShootBullet()

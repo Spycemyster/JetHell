@@ -189,5 +189,6 @@ public class MinigunEnemyComponent : MonoBehaviour, IEnemy
 	{
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
+		StopShooting();
 	}
 }

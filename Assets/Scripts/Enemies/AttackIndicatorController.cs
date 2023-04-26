@@ -17,8 +17,9 @@ public class AttackIndicatorController : MonoBehaviour
     private float attackTimeWait;
     private bool doSendAttack;
     private float timeElapsed = 0f;
+    private bool followParent;
 
-    public void InitializeIndicator(float attackRadius, float attackTime, bool sendAttack, AttackEvent attack, GameObject parent)
+    public void InitializeIndicator(float attackRadius, float attackTime, bool sendAttack, AttackEvent attack, GameObject parent, bool followParent = true)
     {
         attackLoad.transform.localScale = Vector2.zero;
         transform.localScale = new Vector2(attackRadius*2, attackRadius*2);
@@ -29,6 +30,8 @@ public class AttackIndicatorController : MonoBehaviour
         Attack = attack;
 
         this.parent = parent;
+
+        this.followParent = followParent;
     }
 
     public void SetLoad(float percentage)
@@ -48,8 +51,11 @@ public class AttackIndicatorController : MonoBehaviour
                 Attack(gameObject);
             }
         }
-
-        transform.position = parent.transform.position;
+        
+        if (followParent)
+        {
+            transform.position = parent.transform.position;
+        }
     }
 
 }

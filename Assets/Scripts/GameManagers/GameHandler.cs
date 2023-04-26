@@ -117,6 +117,11 @@ public class GameHandler : MonoBehaviour
 					phaseText.enabled = false;
 					ClearAllSurvivalEnemies();
 					//ClearAllEnemyBullets();
+					if (BeatGame())
+					{
+
+					}
+
 					GetAndSetRandomMinigame();
 					m_gamePhase = GamePhase.MINIGAME_PHASE;
 					break;
@@ -182,7 +187,7 @@ public class GameHandler : MonoBehaviour
 			Shuffle<int>(m_randomBag);
 			m_bagIndex = 0;
 		}
-		if (m_roundIndex % 4 == 3)
+		if (m_roundIndex % 4 == 3 || true)
 		{
 			// Return boss level
 			if (bossPrefabs != null && bossPrefabs.Length > 0)
@@ -204,6 +209,16 @@ public class GameHandler : MonoBehaviour
 			return true;
 		}
 		return false;
+	}
+
+	private bool BeatGame()
+	{
+		return m_bossIndex == 3;
+	}
+
+	private void GoToEndScreen()
+	{
+
 	}
 
 	private void OnFailMinigame()

@@ -687,6 +687,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1508206287}
     m_Modifications:
+    - target: {fileID: 2108500102014055238, guid: e729ef05ba0e24c29a0f54b810f3833a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2108500102014055238, guid: e729ef05ba0e24c29a0f54b810f3833a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875561116304030255, guid: e729ef05ba0e24c29a0f54b810f3833a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875561116304030255, guid: e729ef05ba0e24c29a0f54b810f3833a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875561116304030255, guid: e729ef05ba0e24c29a0f54b810f3833a, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9150860652849543165, guid: e729ef05ba0e24c29a0f54b810f3833a, type: 3}
       propertyPath: m_Name
       value: PauseMenu
@@ -1926,6 +1946,10 @@ MonoBehaviour:
   - {fileID: 1807730754178038885, guid: cfa20724ad730417ea108f4c7815d8b9, type: 3}
   - {fileID: 1807730754178038885, guid: 2b6e115b467dd4ba08274436afda6b84, type: 3}
   - {fileID: 1807730754178038885, guid: 97c21b3bca6fb43dc8385a14ae9f78e9, type: 3}
+  - {fileID: 1807730754178038885, guid: a69ddbf7ba7204d689a508f108a673df, type: 3}
+  - {fileID: 1807730754178038885, guid: 896adce615fbf40ba868cd2b5530e8f7, type: 3}
+  - {fileID: 1807730754178038885, guid: 682068915aa7948219ca121d4e811bcc, type: 3}
+  - {fileID: 1807730754178038885, guid: 1ae9ab27484bf4ec695750606b08e7c8, type: 3}
   bossPrefabs:
   - {fileID: 1807730754178038885, guid: a3d7e7c804d444717a53fbcf44b416f5, type: 3}
   healthPackPrefab: {fileID: 1484028202065025121, guid: b58e6bb63d01d4e339b3d36676500896, type: 3}

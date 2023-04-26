@@ -118,10 +118,7 @@ public class GameHandler : MonoBehaviour
 					phaseText.enabled = false;
 					ClearAllSurvivalEnemies();
 					//ClearAllEnemyBullets();
-					if (BeatGame())
-					{
 
-					}
 
 					GetAndSetRandomMinigame();
 					m_gamePhase = GamePhase.MINIGAME_PHASE;
@@ -214,7 +211,7 @@ public class GameHandler : MonoBehaviour
 
 	private bool BeatGame()
 	{
-		return m_bossIndex >= 3;
+		return m_bossIndex >= 3 || m_roundIndex >= 12;
 	}
 
 	public void GoToEndScreen(string descriptionStr)
@@ -307,6 +304,8 @@ public class GameHandler : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Plus))
 		{
 			GetPsuedoRandomLevel();
+			m_roundIndex++;
+			Debug.Log("round: " + m_roundIndex);
 		}
 		if (Input.GetKeyDown(KeyCode.Minus))
 		{

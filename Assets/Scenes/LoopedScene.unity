@@ -2577,7 +2577,7 @@ MonoBehaviour:
   restPhaseDuration: 2
   minigameRestPhaseDuration: 2
   survivalPhaseDuration: 20
-  endGameScreen: {fileID: 0}
+  endGameScreen: {fileID: 718510233}
 --- !u!81 &1709545808
 AudioListener:
   m_ObjectHideFlags: 0
